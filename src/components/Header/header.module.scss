@@ -1,0 +1,24 @@
+
+
+.navbar {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.navLink {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+  font-size: 20px;
+  text-transform: uppercase;
+  transition: all 0.3s ease 0s;
+}
+
+.active {
+  color: #d35f2a;
+}
+
+.navLink:hover {
+  color: #535bf2;
+}

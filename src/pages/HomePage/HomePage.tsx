@@ -1,10 +1,17 @@
-import { Link } from 'react-router-dom';
+import Card from '../../components/Card';
+import InputSearch from '../../components/InputSearch';
+import { goods } from '../../constants/data';
+import styles from './homePage.module.scss';
 
 const HomePage = () => {
   return (
     <div>
-      HomePage
-      <Link to={'/about'}>to about page</Link>
+      <InputSearch />
+      <ul className={styles.cardWrapper}>
+        {goods.map((product) => (
+          <Card key={product.id} card={product} />
+        ))}
+      </ul>
     </div>
   );
 };
