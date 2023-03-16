@@ -9,17 +9,10 @@
     "preview": "vite preview",
     "lint": "prettier --check .",
     "format": "prettier --write .",
-    "test": "vitest"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
+    "test": "vitest",
+    "prepare": "husky install"
   },
 
-  "lint-staged": {
-    "*": "prettier --write"
-  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
