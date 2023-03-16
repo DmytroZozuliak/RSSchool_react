@@ -8,13 +8,8 @@ interface State {
 
 export default class InputSearch extends Component<Record<string, never>, State> {
   state = {
-    term: '',
+    term: localStorage.getItem('goodsSearchBar') || '',
   };
-
-  componentDidMount(): void {
-    const localValue = localStorage.getItem('goodsSearchBar');
-    localValue && this.setState({ term: localValue });
-  }
 
   componentWillUnmount(): void {
     localStorage.setItem('goodsSearchBar', this.state.term);
@@ -30,7 +25,6 @@ export default class InputSearch extends Component<Record<string, never>, State>
         <img src={Search} alt="icon" width={20} height={20} />
         <input
           type="search"
-          style={{ width: '400px' }}
           placeholder="search..."
           value={this.state.term}
           onChange={this.handleChangeSearch}

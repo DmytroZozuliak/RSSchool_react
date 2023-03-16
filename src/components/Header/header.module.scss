@@ -1,9 +1,15 @@
-
+.header{
+  background: #352a2a;
+}
 
 .navbar {
   display: flex;
   align-items: center;
   column-gap: 20px;
+
+  span {
+    margin-left: auto;
+  }
 }
 
 .navLink {

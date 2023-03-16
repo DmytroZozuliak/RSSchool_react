@@ -1,0 +1,33 @@
+.cardWrapper {
+  height: 100%;
+  border: 1px solid gray;
+  border-radius: 25px;
+}
+
+.img {
+  width: 100%;
+  object-fit: cover;
+  height: 250px;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px;
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+
+  span {
+    font-weight: bold;
+  }
+}

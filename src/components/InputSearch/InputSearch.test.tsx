@@ -2,8 +2,6 @@ import { render, screen } from '@testing-library/react';
 import InputSearch from './InputSearch';
 import userEvent from '@testing-library/user-event';
 
-const onChange = jest.fn();
-
 describe('InputSearch component', () => {
   test('renders InputSearch', () => {
     render(<InputSearch />);
@@ -12,11 +10,13 @@ describe('InputSearch component', () => {
     expect(searchbox).toBeInTheDocument();
   });
 
-  test('onChange InputSearch', () => {
+  test('InputSearch typed text', async () => {
     render(<InputSearch />);
+    const input = screen.getByRole('searchbox');
 
     const text = 'React';
-    userEvent.type(screen.getByRole('searchbox'), text);
-    expect(onChange).toHaveBeenCalledTimes(text.length);
+    await userEvent.type(input, text);
+
+    expect(screen.getByDisplayValue(text)).toBeInTheDocument();
   });
 });
