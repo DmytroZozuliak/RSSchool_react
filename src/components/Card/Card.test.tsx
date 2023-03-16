@@ -24,11 +24,17 @@ const card: Product = {
 };
 
 describe('Card component', () => {
-  test('renders Card', () => {
-    // render(<Card card={card} />);
-    // const linkElement = screen.getByRole('listitem');
-    // expect(linkElement).toBeInTheDocument();
-    // const linkText = screen.getByText('ball');
-    // expect(linkText).toBeInTheDocument();
+  test('should render', () => {
+    render(<Card card={card} />);
+    const element = screen.getByRole('listitem');
+    expect(element).toBeInTheDocument();
+    const text = screen.getByText('iPhone 9');
+    expect(text).toBeInTheDocument();
+  });
+
+  test('should render img', () => {
+    render(<Card card={card} />);
+    const img = screen.getByRole('img');
+    expect(img).toBeInTheDocument();
   });
 });
