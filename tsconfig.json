@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -22,10 +18,7 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
   },
-  "include": [
-    "./src/**/*",
-    "styled.d.ts"
-  ],
+  "include": ["./src/**/*", "styled.d.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"
