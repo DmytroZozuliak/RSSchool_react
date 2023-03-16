@@ -16,9 +16,10 @@ describe('App component', () => {
 
     const about = screen.getAllByText(/about/i)[0];
     expect(about).toBeInTheDocument();
-    console.log(about);
-    // screen.debug();
+
     // await user.click(about);
-    // expect(screen.getByText(/About us/i)).toBeInTheDocument();
+    user.click(about).then(() => {
+      expect(screen.getByText(/About us/i)).toBeInTheDocument();
+    });
   });
 });
