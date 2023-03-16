@@ -13,9 +13,10 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo '[Husky] pre-commit'"
+      "pre-commit": "yarn lint"
     }
   },
+
   "lint-staged": {
     "*": "prettier --write"
   },
