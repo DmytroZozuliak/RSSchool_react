@@ -21,7 +21,7 @@ describe('Header component', () => {
       </BrowserRouter>
     );
 
-    const home = screen.getByText(/home/i);
+    const home = screen.getAllByText(/home/i)[0];
     const about = screen.getByText(/about/i);
     expect(home).toBeInTheDocument();
     expect(about).toBeInTheDocument();
@@ -34,7 +34,7 @@ describe('Header component', () => {
       </BrowserRouter>
     );
 
-    const home = screen.getByText(/home/i);
+    const home = screen.getAllByText(/home/i)[0];
     expect(home).not.toHaveClass('active');
   });
 });

@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom';
-import HeaderHoc from '../../hoc/HeaderHOC';
+import Header from '../Header';
 import styles from './layout.module.scss';
 
 const Layout = () => {
   return (
     <>
-      <HeaderHoc />
+      <Header />
       <main>
         <div className="container">
           <Outlet />

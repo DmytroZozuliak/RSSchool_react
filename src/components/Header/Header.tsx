@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { withRouter, WithRouterProps } from '../../hoc/withRouter';
 import { getPathName } from '../../utils/getPathName';
 import styles from './header.module.scss';
 
@@ -8,12 +9,10 @@ const buttons = [
   { path: '/about', title: 'about' },
   { path: '*', title: '404' },
 ];
-interface Props {
-  path: string;
-}
-
-export default class Header extends Component<Props> {
+class Header extends Component<WithRouterProps> {
   render() {
+    const path = getPathName(this.props.location.pathname);
+
     return (
       <header className={styles.header}>
         <div className="container">
@@ -25,16 +24,17 @@ export default class Header extends Component<Props> {
                   isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
                 }
                 to={el.path}
-                onClick={() => this.setState({ path: getPathName(window.location.pathname) })}
               >
                 {el.title}
               </NavLink>
             ))}
 
-            <span>You are on: {this.props.path} page</span>
+            <span>You are on: {path} page</span>
           </nav>
         </div>
       </header>
     );
   }
 }
+
+export default withRouter(Header);
