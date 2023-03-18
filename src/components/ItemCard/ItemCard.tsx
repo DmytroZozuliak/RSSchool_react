@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Product } from '../../constants/data';
-import styles from './card.module.scss';
+import styles from './itemCard.module.scss';
 
 interface Props {
   card: Product;

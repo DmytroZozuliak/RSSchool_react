@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Search from '../../assets/svg/search.svg';
-import styles from './inputSearch.module.scss';
+import MyInput from '../UI/MyInput';
 
 interface State {
   term: string;
@@ -21,15 +20,12 @@ export default class InputSearch extends Component<Record<string, never>, State>
 
   render() {
     return (
-      <div className={styles.search}>
-        <img src={Search} alt="icon" width={20} height={20} />
-        <input
-          type="search"
-          placeholder="search..."
-          value={this.state.term}
-          onChange={this.handleChangeSearch}
-        />
-      </div>
+      <MyInput
+        type="search"
+        placeholder="search..."
+        value={this.state.term}
+        onChange={this.handleChangeSearch}
+      />
     );
   }
 }

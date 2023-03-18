@@ -1,4 +1,4 @@
-import Card from '../../components/Card';
+import Card from '../../components/ItemCard';
 import InputSearch from '../../components/InputSearch';
 import { goods } from '../../constants/data';
 import styles from './homePage.module.scss';
