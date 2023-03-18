@@ -1,76 +1,78 @@
-// import React from 'react';
-// import { render, screen } from '@testing-library/react';
-// import Form from './Form';
-// import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
+import Form from './Form';
+import userEvent from '@testing-library/user-event';
 
-// describe('Form component', () => {
-//   const addCard = jest.fn();
-//   global.URL.createObjectURL = jest.fn();
+describe('Form component', () => {
+  const addCard = vi.fn();
+  //   global.URL.createObjectURL = jest.fn();
 
-//   test('type input name', () => {
-//     render(<Form addCard={addCard} />);
-//     const inputName = screen.getByTestId('input-name');
-//     userEvent.type(inputName, '12');
-//     expect(inputName).toHaveValue('12');
-//   });
+  test('type input name', () => {
+    render(<Form addCard={addCard} />);
+    const inputName = screen.getByTestId('input-name');
+    expect(inputName).toBeInTheDocument();
 
-//   test('type input surname', () => {
-//     render(<Form addCard={addCard} />);
-//     const inputSurname = screen.getByTestId('input-surname');
-//     userEvent.type(inputSurname, 'surname typing');
-//     expect(inputSurname).toHaveValue('surname typing');
-//   });
+    // userEvent.type(inputName, '12');
+    // expect(inputName).toHaveValue('12');
+  });
 
-//   test('type input date', () => {
-//     render(<Form addCard={addCard} />);
-//     const inputDate = screen.getByTestId('input-date');
-//     userEvent.type(inputDate, '2020-01-02');
-//     expect(inputDate).toHaveValue('2020-01-02');
-//   });
+  //   test('type input surname', () => {
+  //     render(<Form addCard={addCard} />);
+  //     const inputSurname = screen.getByTestId('input-surname');
+  //     userEvent.type(inputSurname, 'surname typing');
+  //     expect(inputSurname).toHaveValue('surname typing');
+  //   });
 
-//   test('type input dataProcessing', () => {
-//     render(<Form addCard={addCard} />);
-//     const inputCheck = screen.getByTestId('input-dataProcessing');
-//     userEvent.click(inputCheck);
-//     expect(inputCheck).toBeChecked;
-//   });
+  //   test('type input date', () => {
+  //     render(<Form addCard={addCard} />);
+  //     const inputDate = screen.getByTestId('input-date');
+  //     userEvent.type(inputDate, '2020-01-02');
+  //     expect(inputDate).toHaveValue('2020-01-02');
+  //   });
 
-//   test('check after type input name submit - disable', () => {
-//     render(<Form addCard={addCard} />);
-//     const submitButton = screen.getByTestId('button-submit');
+  //   test('type input dataProcessing', () => {
+  //     render(<Form addCard={addCard} />);
+  //     const inputCheck = screen.getByTestId('input-dataProcessing');
+  //     userEvent.click(inputCheck);
+  //     expect(inputCheck).toBeChecked;
+  //   });
 
-//     userEvent.type(screen.getByTestId('input-name'), 'na');
-//     userEvent.click(submitButton);
-//     expect(submitButton).toBeDisabled();
-//   });
+  //   test('check after type input name submit - disable', () => {
+  //     render(<Form addCard={addCard} />);
+  //     const submitButton = screen.getByTestId('button-submit');
 
-//   test('check after type input name submit - enable', () => {
-//     render(<Form addCard={addCard} />);
-//     const submitButton = screen.getByTestId('button-submit');
+  //     userEvent.type(screen.getByTestId('input-name'), 'na');
+  //     userEvent.click(submitButton);
+  //     expect(submitButton).toBeDisabled();
+  //   });
 
-//     userEvent.type(screen.getByTestId('input-name'), 'na');
-//     expect(submitButton).toBeEnabled();
-//   });
+  //   test('check after type input name submit - enable', () => {
+  //     render(<Form addCard={addCard} />);
+  //     const submitButton = screen.getByTestId('button-submit');
 
-//   test('check after type input name submit - disable', () => {
-//     render(<Form addCard={addCard} />);
-//     const submitButton = screen.getByTestId('button-submit');
+  //     userEvent.type(screen.getByTestId('input-name'), 'na');
+  //     expect(submitButton).toBeEnabled();
+  //   });
 
-//     userEvent.type(screen.getByTestId('input-name'), 'na');
-//     userEvent.click(submitButton);
-//     userEvent.type(screen.getByTestId('input-name'), 'nav');
+  //   test('check after type input name submit - disable', () => {
+  //     render(<Form addCard={addCard} />);
+  //     const submitButton = screen.getByTestId('button-submit');
 
-//     expect(submitButton).toBeDisabled();
-//   });
+  //     userEvent.type(screen.getByTestId('input-name'), 'na');
+  //     userEvent.click(submitButton);
+  //     userEvent.type(screen.getByTestId('input-name'), 'nav');
 
-//   test('file upload', () => {
-//     render(<Form addCard={addCard} />);
+  //     expect(submitButton).toBeDisabled();
+  //   });
 
-//     const file = new File(['img'], 'chucknorris.png', { type: 'image/png' });
-//     const submitButton = screen.getByTestId('button-submit');
-//     const input = screen.getByTestId('input-file') as HTMLInputElement;
-//     userEvent.upload(input, file);
+  //   test('file upload', () => {
+  //     render(<Form addCard={addCard} />);
 
-//     expect(submitButton).toBeEnabled();
-//   });
-// });
+  //     const file = new File(['img'], 'chucknorris.png', { type: 'image/png' });
+  //     const submitButton = screen.getByTestId('button-submit');
+  //     const input = screen.getByTestId('input-file') as HTMLInputElement;
+  //     userEvent.upload(input, file);
+
+  //     expect(submitButton).toBeEnabled();
+  //   });
+});

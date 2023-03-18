@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import CardsForm from './CardsForm';
-import { PersonCard } from '../FormPage';
+import FormCards from './FormCards';
+import { FormCard } from '../../pages/FormPage/FormPage';
 
 describe('CardsForm component', () => {
-  let cards: PersonCard[];
+  let cards: FormCard[];
 
   beforeAll(() => {
     cards = [
@@ -27,15 +27,15 @@ describe('CardsForm component', () => {
     ];
   });
 
-  test('renders CardsForm', () => {
-    render(<CardsForm cards={cards} />);
+  test('renders FormCards', () => {
+    render(<FormCards cards={cards} />);
 
     const name = screen.getByText(/dima/i);
     expect(name).toBeInTheDocument();
   });
 
-  test('renders CardsForm', () => {
-    render(<CardsForm cards={cards} />);
+  test('renders 2 FormCards', () => {
+    render(<FormCards cards={cards} />);
 
     const cardsElement = screen.queryAllByTestId('form-card');
     expect(cardsElement.length).toBe(2);

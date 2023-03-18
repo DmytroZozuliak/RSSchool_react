@@ -256,7 +256,7 @@ export default class Form extends Component<Props, State> {
           <MyButton type="submit" disabled={this.state.buttonsDisable} data-testid="button-submit">
             Create card
           </MyButton>
-          <MyButton type="reset" onClick={this.resetStateInputs}>
+          <MyButton type="reset" onClick={this.resetStateInputs} data-testid="button-reset">
             Reset
           </MyButton>
         </div>

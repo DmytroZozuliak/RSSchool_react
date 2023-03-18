@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import Form from '../../components/Form';
-import FormCards from '../../components/FormCard/FormCard';
-// import CardsForm from './cardsForm/CardsForm';
+import FormCards from '../../components/FormCards/FormCards';
 interface State {
   formCards: FormCard[];
 }
@@ -15,7 +14,7 @@ export interface FormCard {
 }
 
 export default class FormPage extends Component<Record<string, unknown>, State> {
-  constructor(props: Record<string, unknown> | Readonly<Record<string, unknown>>) {
+  constructor(props: Record<string, unknown>) {
     super(props);
     this.state = {
       formCards: [],

@@ -19,7 +19,7 @@ export default class ToggleCheckbox extends Component<Props & React.HTMLProps<HT
 
     return (
       <div className="toggle-switch-wrapper">
-        <label className={`label ${isValid && 'invalid'}`}>
+        <label className={`label ${isValid ? 'invalid' : ''}`}>
           {label}
           <div className="toggle-switch small-switch">
             <input
