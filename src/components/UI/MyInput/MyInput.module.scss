@@ -11,13 +11,12 @@
   label {
     text-transform: capitalize;
     display: block;
-    padding-left: 15px;
     margin-bottom: 5px;
   }
 
   input {
     display: block;
-    max-width: 300px;
+    width: 300px;
     color: #ffffff;
     font-size: 18px;
     margin-top: 5px;
@@ -40,7 +39,7 @@
   }
 }
 
-.myInput.invalid label {
+.label.invalid {
   color: #e1646e;
 }
 

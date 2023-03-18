@@ -39,13 +39,9 @@ export default class MyInput extends Component<Props & React.HTMLProps<HTMLInput
       isValid = true;
     }
 
-    if (isValid) {
-      cls.push(classes.invalid);
-    }
-
     return (
       <div className={cls.join(' ')}>
-        <label className={classes.label}>
+        <label className={`${classes.label} ${isValid && classes.invalid}`}>
           {label}
           {type === 'file' && image && <img src={image} alt="avatar" />}
           <input type={type} ref={reference} {...restProps} />

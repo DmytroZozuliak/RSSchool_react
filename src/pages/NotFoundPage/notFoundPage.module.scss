@@ -4,13 +4,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 .title {
   display: flex;
   width: 580px;
   height: 250px;
-  margin-bottom: 10px;
   flex-wrap: wrap;
   align-content: center;
   align-items: center;

@@ -54,8 +54,8 @@ export default class Form extends Component<Props, State> {
 
   onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name as keyof State;
-    const inputAvatar = this.fileInput.current as HTMLInputElement;
-    if (name === 'file' && inputAvatar.files) {
+    const inputAvatar = this.fileInput.current;
+    if (name === 'file' && inputAvatar && inputAvatar.files) {
       this.setState({ img: URL.createObjectURL(inputAvatar.files[0]), file: true });
     }
     this.setState((prevState) => {
@@ -142,7 +142,6 @@ export default class Form extends Component<Props, State> {
     this.setState({ firstChangeForm: true });
 
     if (!this.validationAll()) {
-      console.log('form cannot be submitted!');
       this.setState({ buttonsDisable: true });
       return;
     }

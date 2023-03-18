@@ -11,8 +11,16 @@
     left: 15px;
     color: #e1646e;
     font-size: 12px;
-    // margin-top: 5px;
   }
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.label.invalid {
+  color: #e1646e;
 }
 .toggle-switch {
   position: relative;
@@ -96,6 +104,8 @@
   }
 
   &.small-switch {
+    display: block;
+    margin-top: 5px;
     width: 40px;
     .toggle-switch-inner {
       &:after,

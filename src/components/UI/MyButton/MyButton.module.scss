@@ -1,7 +1,7 @@
 $bcg-color3: #278d9f;
 $bg-blur: rgba(31, 112, 127, 0.3);
 
-.Button {
+.button {
   display: flex;
   overflow: hidden;
   align-items: center;
@@ -29,7 +29,7 @@ $bg-blur: rgba(31, 112, 127, 0.3);
   }
 }
 
-.Button.disable {
+.button.disable {
   background-color: #c2c2c2;
   color: #000000;
   pointer-events: none;
