@@ -16,8 +16,8 @@ describe('NotFoundPage component', () => {
     expect(errorText).toBeInTheDocument();
   });
 
-  test('should return to 404 page when hash is incorrect', async () => {
-    renderWithRouter('/asd');
+  test('should return to home page after click inside 404 page', async () => {
+    renderWithRouter('/404');
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
