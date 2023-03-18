@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Navigate, Route } from 'react-router-dom';
 import Layout from '../components/layouts';
 import { ROUTE_PATHS } from '../constants/routePaths';
 import AboutPage from './AboutPage';
@@ -14,6 +14,7 @@ export const routesFromElements = createRoutesFromElements(
       <Route path={ROUTE_PATHS.formPage} element={<FormPage />} />
     </Route>
     <Route path={ROUTE_PATHS.notFoundPage} element={<NotFoundPage />} />
+    <Route path={ROUTE_PATHS.other} element={<Navigate to={ROUTE_PATHS.notFoundPage} replace />} />
   </>
 );
 
