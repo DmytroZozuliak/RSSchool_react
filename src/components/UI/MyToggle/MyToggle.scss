@@ -1,134 +1,116 @@
-.toggle-switch-wrapper {
-  position: relative;
+$toggleWidth: 3rem;
+$toggleHeight: 1.5rem;
+$toggleOutsideR: 1rem;
+$toggleInsideR: 2.5rem;
+$toggleInsideWidth: 1.25rem;
+$toggleInsideHeight: 1.25rem;
+$toggleOutsidePadding: 0.125rem;
+
+$toggleLeftInside: 0.125rem;
+$toggleRightInside: 1.625rem;
+
+$labelSize: 1rem;
+$labelLineHeight: 1rem;
+
+$toggleInsideColor: #278d9f;
+// $toggleInsideColor: #4a4a4a;
+
+.toggleWrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  padding-bottom: 15px;
+}
+
+.switch {
   display: flex;
   align-items: center;
-  column-gap: 10px;
-  padding-bottom: 15px;
-
-  & > span {
-    position: absolute;
-    bottom: 0;
-    left: 15px;
-    color: #e1646e;
-    font-size: 12px;
-  }
-}
-
-.label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.label.invalid {
-  color: #e1646e;
-}
-.toggle-switch {
   position: relative;
-  width: 75px;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: left;
-  &-checkbox {
-    display: none;
-  }
-  &-label {
-    display: block;
-    overflow: hidden;
-    cursor: pointer;
-    border: 0 solid #bbb;
-    border-radius: 20px;
-    margin: 0;
-  }
-  &-inner {
-    display: block;
-    width: 200%;
-    margin-left: -100%;
-    transition: margin 0.3s ease-in 0s;
-    &:before,
-    &:after {
-      display: block;
-      float: left;
-      width: 50%;
-      height: 34px;
-      padding: 0;
-      line-height: 34px;
-      font-size: 14px;
-      color: white;
-      font-weight: bold;
-      box-sizing: border-box;
-    }
-    &:before {
-      content: attr(data-yes);
-      text-transform: uppercase;
-      padding-left: 10px;
-      background-color: #f90;
-      color: #fff;
-    }
-  }
-  &-disabled {
-    background-color: #ddd;
-    cursor: not-allowed;
-    &:before {
-      background-color: #ddd;
-      cursor: not-allowed;
-    }
-  }
-  &-inner:after {
-    content: attr(data-no);
-    text-transform: uppercase;
-    padding-right: 10px;
-    background-color: #bbb;
-    color: #fff;
-    text-align: right;
-  }
-  &-switch {
-    display: block;
-    width: 24px;
-    margin: 5px;
-    background: #fff;
+  input {
     position: absolute;
     top: 0;
-    bottom: 0;
-    right: 40px;
-    border: 0 solid #bbb;
-    border-radius: 20px;
-    transition: all 0.3s ease-in 0s;
-  }
-  &-checkbox:checked + &-label {
-    .toggle-switch-inner {
-      margin-left: 0;
-    }
-    .toggle-switch-switch {
-      right: 0px;
-    }
-  }
-
-  &.small-switch {
-    display: block;
-    margin-top: 5px;
-    width: 40px;
-    .toggle-switch-inner {
-      &:after,
-      &:before {
-        content: '';
-        height: 20px;
-        line-height: 20px;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+    &:checked {
+      z-index: 1;
+      & + label {
+        opacity: 1;
+        cursor: default;
       }
     }
-    .toggle-switch-switch {
-      width: 16px;
-      right: 20px;
-      margin: 2px;
+    &:not(:checked) {
+      & + label {
+        &:hover {
+          opacity: 0.5;
+        }
+      }
     }
   }
-
-  @media screen and (max-width: 991px) {
-    transform: scale(0.9);
+  label {
+    color: #fff;
+    opacity: 0.33;
+    transition: opacity 0.25s ease;
+    cursor: pointer;
   }
-  @media screen and (max-width: 767px) {
-    transform: scale(0.825);
+  .toggle-outside {
+    height: 100%;
+    border-radius: $toggleOutsideR;
+    padding: $toggleOutsidePadding;
+    overflow: hidden;
+    transition: 0.25s ease all;
   }
-  @media screen and (max-width: 575px) {
-    transform: scale(0.75);
+  .toggle-inside {
+    border-radius: $toggleInsideR;
+    background: $toggleInsideColor;
+    position: absolute;
+    transition: 0.25s ease all;
+  }
+}
+.switch--horizontal {
+  width: calc($toggleWidth * 3);
+  height: $toggleHeight;
+  font-size: 0;
+  input {
+    height: $toggleHeight;
+    width: $toggleWidth;
+    left: $toggleWidth;
+    margin: 0;
+    &:checked {
+      & ~ .toggle-outside {
+        .toggle-inside {
+          left: $toggleLeftInside;
+        }
+      }
+    }
+    & ~ input {
+      &:checked {
+        & ~ .toggle-outside {
+          .toggle-inside {
+            left: $toggleRightInside;
+          }
+        }
+      }
+    }
+  }
+  label {
+    font-size: $labelSize;
+    line-height: $labelLineHeight;
+    width: $toggleWidth;
+    margin: 0;
+    text-align: center;
+    &:last-of-type {
+      margin-left: calc($toggleWidth + 20px);
+    }
+  }
+  .toggle-outside {
+    background: #fff;
+    position: absolute;
+    width: $toggleWidth;
+    left: $toggleWidth;
+  }
+  .toggle-inside {
+    height: $toggleInsideHeight;
+    width: $toggleInsideWidth;
   }
 }

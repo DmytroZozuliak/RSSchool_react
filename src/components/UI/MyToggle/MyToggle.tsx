@@ -4,13 +4,21 @@ import './MyToggle.scss';
 interface Props {
   label: string;
   errorMessage?: string;
-  reference?: React.RefObject<HTMLInputElement>;
+  option1: string;
+  option2: string;
+  reference1?: React.RefObject<HTMLInputElement>;
+  reference2?: React.RefObject<HTMLInputElement>;
   valid?: boolean;
 }
 
 export default class ToggleCheckbox extends Component<Props & React.HTMLProps<HTMLInputElement>> {
+  changeHandler = () => {
+    console.log('changed');
+  };
+
   render() {
-    const { reference, valid, label, errorMessage, ...restProps } = this.props;
+    const { reference1, reference2, option1, option2, valid, label, errorMessage, ...restArgs } =
+      this.props;
 
     let isValid = false;
     if (!valid) {
@@ -18,23 +26,24 @@ export default class ToggleCheckbox extends Component<Props & React.HTMLProps<HT
     }
 
     return (
-      <div className="toggle-switch-wrapper">
-        <label className={`label ${isValid ? 'invalid' : ''}`}>
-          {label}
-          <div className="toggle-switch small-switch">
-            <input
-              id={label}
-              type="checkbox"
-              ref={reference}
-              className="toggle-switch-checkbox"
-              {...restProps}
-            />
-            <label className="toggle-switch-label" htmlFor={label}>
-              <span className="toggle-switch-inner" data-yes="yes" data-no="no" />
-              <span className="toggle-switch-switch" />
-            </label>
-          </div>
-        </label>
+      <div className="toggleWrapper">
+        <div className="title">{label}</div>
+        <div className="switch switch--horizontal">
+          <input
+            id="radio-a"
+            type="radio"
+            value="male"
+            defaultChecked
+            ref={reference1}
+            {...restArgs}
+          />
+          <label htmlFor="radio-a">{option1}</label>
+          <input id="radio-b" type="radio" value="female" ref={reference2} {...restArgs} />
+          <label htmlFor="radio-b">{option2}</label>
+          <span className="toggle-outside">
+            <span className="toggle-inside"></span>
+          </span>
+        </div>
 
         {isValid && <span>{errorMessage}</span>}
       </div>

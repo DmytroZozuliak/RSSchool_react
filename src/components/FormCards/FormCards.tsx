@@ -29,6 +29,9 @@ export default class FormCards extends Component<Props> {
                     surname: <span>{card.surname}</span>
                   </span>
                   <span>
+                    gender: <span>{card.genderMale}</span>
+                  </span>
+                  <span>
                     date of birth: <span>{card.date}</span>
                   </span>
                   <span>

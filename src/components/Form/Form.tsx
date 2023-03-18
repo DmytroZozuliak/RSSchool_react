@@ -4,11 +4,14 @@ import MyButton from '../UI/MyButton';
 import MyInput from '../UI/MyInput';
 import MySelect from '../UI/MySelect';
 import MyToggle from '../UI/MyToggle';
+import MyToggle1 from '../UI/MyCheckbox';
 import classes from './Form.module.scss';
 
 interface Props {
   addCard: (card: FormCard) => void;
 }
+
+export type Gender = 'male' | 'female';
 
 interface State {
   firstChangeForm: boolean;
@@ -20,6 +23,7 @@ interface State {
   img: string | null;
   file: boolean;
   dataProcessing: boolean;
+  genderMale: boolean;
 }
 
 export default class Form extends Component<Props, State> {
@@ -29,6 +33,8 @@ export default class Form extends Component<Props, State> {
   fileInput: React.RefObject<HTMLInputElement>;
   checkboxProcessing: React.RefObject<HTMLInputElement>;
   countrySelect: React.RefObject<HTMLSelectElement>;
+  genderRadio1: React.RefObject<HTMLInputElement>;
+  genderRadio2: React.RefObject<HTMLInputElement>;
 
   constructor(props: Props) {
     super(props);
@@ -38,6 +44,8 @@ export default class Form extends Component<Props, State> {
     this.fileInput = createRef();
     this.countrySelect = createRef();
     this.checkboxProcessing = createRef();
+    this.genderRadio1 = createRef();
+    this.genderRadio2 = createRef();
 
     this.state = {
       firstChangeForm: false,
@@ -49,6 +57,7 @@ export default class Form extends Component<Props, State> {
       file: true,
       img: null,
       dataProcessing: true,
+      genderMale: true,
     };
   }
 
@@ -58,6 +67,8 @@ export default class Form extends Component<Props, State> {
     if (name === 'file' && inputAvatar && inputAvatar.files) {
       this.setState({ img: URL.createObjectURL(inputAvatar.files[0]), file: true });
     }
+    console.log('name', name);
+
     this.setState((prevState) => {
       return { ...prevState, [name]: true };
     }, this.enableButton);
@@ -69,6 +80,7 @@ export default class Form extends Component<Props, State> {
 
   onChangeSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.name as keyof State;
+    console.log('name', name);
     this.setState((prevState) => {
       return { ...prevState, [name]: true };
     }, this.enableButton);
@@ -86,7 +98,8 @@ export default class Form extends Component<Props, State> {
       this.state.file &&
       this.state.name &&
       this.state.surname &&
-      this.state.firstChangeForm
+      this.state.firstChangeForm &&
+      this.state.genderMale
     ) {
       this.setState((prevState) => {
         return { ...prevState, buttonsDisable: false };
@@ -138,7 +151,10 @@ export default class Form extends Component<Props, State> {
     const inputAvatar = this.fileInput.current as HTMLInputElement;
     const countrySelect = this.countrySelect.current as HTMLSelectElement;
     const checkboxProcessing = this.checkboxProcessing.current as HTMLInputElement;
+    const radioGenderMale = this.genderRadio1.current as HTMLInputElement;
+    const radioGenderFemale = this.genderRadio2.current as HTMLInputElement;
 
+    console.log('state', this.state);
     this.setState({ firstChangeForm: true });
 
     if (!this.validationAll()) {
@@ -152,6 +168,9 @@ export default class Form extends Component<Props, State> {
     } else {
       imgValue = null;
     }
+    const selectedGender = (
+      radioGenderMale.checked ? radioGenderMale.value : radioGenderFemale.value
+    ) as Gender;
 
     const newCard: FormCard = {
       name: inputName.value,
@@ -160,6 +179,7 @@ export default class Form extends Component<Props, State> {
       country: countrySelect.value,
       img: imgValue,
       dataProcessing: checkboxProcessing.checked,
+      genderMale: selectedGender,
     };
 
     this.props.addCard(newCard);
@@ -173,6 +193,8 @@ export default class Form extends Component<Props, State> {
     const inputAvatar = this.fileInput.current as HTMLInputElement;
     const countrySelect = this.countrySelect.current as HTMLSelectElement;
     const checkboxProcessing = this.checkboxProcessing.current as HTMLInputElement;
+    const radioGender1 = this.genderRadio1.current as HTMLInputElement;
+    const radioGender2 = this.genderRadio2.current as HTMLInputElement;
 
     inputName.value = '';
     inputSurname.value = '';
@@ -180,6 +202,8 @@ export default class Form extends Component<Props, State> {
     countrySelect.value = 'UA';
     checkboxProcessing.checked = false;
     inputAvatar.value = '';
+    radioGender1.checked = true;
+    radioGender2.checked = false;
 
     this.setState({
       name: true,
@@ -190,6 +214,7 @@ export default class Form extends Component<Props, State> {
       file: true,
       dataProcessing: true,
       buttonsDisable: true,
+      genderMale: true,
     });
   };
 
@@ -243,7 +268,7 @@ export default class Form extends Component<Props, State> {
           onChange={this.onChangeSelectHandler}
           data-testid="select-country"
         />
-        <MyToggle
+        <MyToggle1
           name="dataProcessing"
           label="Agree to data processing"
           reference={this.checkboxProcessing}
@@ -252,6 +277,16 @@ export default class Form extends Component<Props, State> {
           onChange={this.onChangeInputHandler}
           data-testid="input-dataProcessing"
         />
+        <MyToggle
+          onChange={this.onChangeInputHandler}
+          name="genderMale"
+          reference1={this.genderRadio1}
+          reference2={this.genderRadio2}
+          option1="male"
+          option2="female"
+          label="Gender"
+        />
+
         <div className={classes.cardForm__buttons}>
           <MyButton type="submit" disabled={this.state.buttonsDisable} data-testid="button-submit">
             Create card
