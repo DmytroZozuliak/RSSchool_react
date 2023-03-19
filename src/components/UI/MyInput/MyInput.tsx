@@ -3,7 +3,7 @@ import classes from './MyInput.module.scss';
 
 interface Props {
   type?: string;
-  label: string;
+  label?: string;
   errorMessage?: string;
   valid?: boolean;
   reference?: React.RefObject<HTMLInputElement>;

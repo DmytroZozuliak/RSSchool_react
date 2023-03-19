@@ -1,6 +1,6 @@
 import { Component } from 'react';
+import { FormCard } from '../../types/formTypes';
 import classes from './formCard.module.scss';
-import { FormCard } from '../../pages/FormPage/FormPage';
 
 interface Props {
   cards: FormCard[];
