@@ -1,18 +1,15 @@
 import React, { Component, createRef } from 'react';
-import { FormCard } from '../../pages/FormPage/FormPage';
 import MyButton from '../UI/MyButton';
 import MyInput from '../UI/MyInput';
 import MySelect from '../UI/MySelect';
 import MyToggle from '../UI/MyToggle';
 import MyToggle1 from '../UI/MyCheckbox';
 import classes from './Form.module.scss';
+import { FormCard, Gender } from '../../types/formTypes';
 
 interface Props {
   addCard: (card: FormCard) => void;
 }
-
-export type Gender = 'male' | 'female';
-
 interface State {
   firstChangeForm: boolean;
   buttonsDisable: boolean;

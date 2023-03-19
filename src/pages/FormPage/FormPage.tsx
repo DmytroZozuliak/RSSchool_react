@@ -1,18 +1,9 @@
 import { Component } from 'react';
 import Form from '../../components/Form';
-import { Gender } from '../../components/Form/Form';
 import FormCards from '../../components/FormCards/FormCards';
+import { FormCard } from '../../types/formTypes';
 interface State {
   formCards: FormCard[];
-}
-export interface FormCard {
-  name: string;
-  surname: string;
-  date: string;
-  country: string;
-  img: string | null;
-  dataProcessing: boolean;
-  genderMale: Gender;
 }
 
 export default class FormPage extends Component<Record<string, unknown>, State> {

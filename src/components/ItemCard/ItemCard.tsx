@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Product } from '../../constants/data';
+import { Product } from '../../types/itemType';
 import styles from './itemCard.module.scss';
 
 interface Props {
