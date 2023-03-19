@@ -34,7 +34,7 @@ describe('Form component', () => {
     render(<Form addCard={addCard} />);
     const inputCheck = screen.getByTestId('input-dataProcessing');
     await userEvent.click(inputCheck);
-    expect(inputCheck).toBeChecked;
+    expect(inputCheck).toBeChecked();
   });
 
   test('check after type input name submit - disable', async () => {
@@ -43,9 +43,8 @@ describe('Form component', () => {
 
     await userEvent.type(screen.getByTestId('input-name'), 'na');
     await userEvent.click(submitButton);
-    screen.debug();
-    const classes = submitButton.getAttribute('class');
-    expect(classes).toMatch(/disable/i);
+
+    expect(submitButton).toBeDisabled();
   });
 
   test('check after type input name submit - enable', async () => {
@@ -61,11 +60,12 @@ describe('Form component', () => {
     const submitButton = screen.getByTestId('button-submit');
 
     await userEvent.type(screen.getByTestId('input-name'), 'na');
+    expect(submitButton).toBeEnabled();
+
     await userEvent.click(submitButton);
     await userEvent.type(screen.getByTestId('input-name'), 'nav');
 
-    const classes = submitButton.getAttribute('class');
-    expect(classes).toMatch(/disable/i);
+    expect(submitButton).toBeDisabled();
   });
 
   test('file upload', async () => {

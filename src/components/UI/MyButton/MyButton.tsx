@@ -7,7 +7,11 @@ export default class MyButton extends Component<
     const { disabled, ...restProps } = this.props;
 
     return (
-      <button className={`${styles.button} ${disabled && styles.disable}`} {...restProps}>
+      <button
+        disabled={disabled}
+        className={`${styles.button} ${disabled && styles.disable}`}
+        {...restProps}
+      >
         {this.props.children}
       </button>
     );
