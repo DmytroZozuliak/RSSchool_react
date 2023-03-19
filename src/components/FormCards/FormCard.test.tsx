@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
+import { FormCard } from '../../types/formTypes';
 import FormCards from './FormCards';
-import { FormCard } from '../../pages/FormPage/FormPage';
 
 describe('CardsForm component', () => {
   let cards: FormCard[];

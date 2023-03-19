@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
+import { Product } from '../../types/itemType';
 import Card from './ItemCard';
-import { Product } from '../../constants/data';
 
 const card: Product = {
   id: 1,

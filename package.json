@@ -10,7 +10,8 @@
     "lint": "prettier --check .",
     "format": "prettier --write .",
     "test": "vitest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "eslint": "eslint . --ext .tsx --ext .ts"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
