@@ -1,6 +1,8 @@
+@import '../../styles/variables.scss';
+
 .cardWrapper {
   height: 100%;
-  border: 3px solid #278d9f;
+  border: 3px solid $primaryColor;
   border-radius: 25px;
   background-color: rgba(31, 112, 127, 0.3);
 }
@@ -30,6 +32,6 @@
 
   span {
     font-weight: bold;
-    color: #42ba2c;
+    color: $textStrongColor;
   }
 }

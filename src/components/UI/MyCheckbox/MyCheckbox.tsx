@@ -22,7 +22,7 @@ export default class ToggleCheckbox extends Component<Props & React.HTMLProps<HT
         <label htmlFor={label} className={`${styles.title} ${isValid ? styles.invalid : ''}`}>
           {label}
         </label>
-        <input id={label} type="checkbox" ref={reference} {...restProps} />
+        <input className={styles.input} id={label} type="checkbox" ref={reference} {...restProps} />
         <label className={styles.label} htmlFor={label} />
 
         {isValid && <span>{errorMessage}</span>}

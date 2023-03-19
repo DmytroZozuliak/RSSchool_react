@@ -1,3 +1,5 @@
+@import '../../../styles/variables.scss';
+
 $toggleWidth: 3rem;
 $toggleHeight: 1.5rem;
 $toggleOutsideR: 1rem;
@@ -12,8 +14,7 @@ $toggleRightInside: 1.625rem;
 $labelSize: 1rem;
 $labelLineHeight: 1rem;
 
-$toggleInsideColor: #278d9f;
-// $toggleInsideColor: #4a4a4a;
+$toggleInsideColor: $primaryColor;
 
 .toggleWrapper {
   display: flex;

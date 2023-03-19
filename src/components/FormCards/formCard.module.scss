@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .miniCards {
   margin-top: 20px;
   display: grid;
@@ -18,7 +20,7 @@
   align-items: center;
   backdrop-filter: blur(6px);
   background-color: rgba(31, 112, 127, 0.3);
-  border: 3px solid #278d9f;
+  border: 3px solid $primaryColor;
   border-radius: 25px;
 
   & > :not(:last-child) {
@@ -41,7 +43,7 @@
     color: #ffffff;
 
     & > span {
-      color: #42ba2c;
+      color: $textStrongColor;
     }
   }
 

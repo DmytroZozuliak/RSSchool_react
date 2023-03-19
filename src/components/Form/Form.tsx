@@ -239,6 +239,15 @@ export default class Form extends Component<Props, State> {
           onChange={this.onChangeInputHandler}
           data-testid="input-surname"
         />
+        <MyToggle
+          onChange={this.onChangeInputHandler}
+          name="genderMale"
+          reference1={this.genderRadio1}
+          reference2={this.genderRadio2}
+          option1="male"
+          option2="female"
+          label="Gender"
+        />
         <MyInput
           type="date"
           label="Birth date"
@@ -276,15 +285,6 @@ export default class Form extends Component<Props, State> {
           errorMessage="you should agree"
           onChange={this.onChangeInputHandler}
           data-testid="input-dataProcessing"
-        />
-        <MyToggle
-          onChange={this.onChangeInputHandler}
-          name="genderMale"
-          reference1={this.genderRadio1}
-          reference2={this.genderRadio2}
-          option1="male"
-          option2="female"
-          label="Gender"
         />
 
         <div className={classes.cardForm__buttons}>
