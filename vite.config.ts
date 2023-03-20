@@ -7,8 +7,8 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/RSSchool_react/',
-  // base: '/',
+  // base: '/RSSchool_react/',
+  base: '/',
 
   test: {
     globals: true,
