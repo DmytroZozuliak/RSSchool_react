@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './MyToggle.scss';
+import styles from './MyToggle.module.scss';
 
 interface Props {
   label: string;
@@ -26,22 +26,22 @@ export default class ToggleCheckbox extends Component<Props & React.HTMLProps<HT
     }
 
     return (
-      <div className="toggleWrapper">
-        <div className="title">{label}</div>
-        <div className="switch switch--horizontal">
+      <div className={styles.toggleWrapper}>
+        <div className={styles.title}>{label}</div>
+        <div className={`${styles.switch} ${styles['switch--horizontal']}`}>
           <input
             id="radio-a"
             type="radio"
-            value="male"
+            value={option1}
             defaultChecked
             ref={reference1}
             {...restArgs}
           />
           <label htmlFor="radio-a">{option1}</label>
-          <input id="radio-b" type="radio" value="female" ref={reference2} {...restArgs} />
+          <input id="radio-b" type="radio" value={option2} ref={reference2} {...restArgs} />
           <label htmlFor="radio-b">{option2}</label>
-          <span className="toggle-outside">
-            <span className="toggle-inside"></span>
+          <span className={styles['toggle-outside']}>
+            <span className={styles['toggle-inside']}></span>
           </span>
         </div>
 

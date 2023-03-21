@@ -3,7 +3,7 @@ import MyButton from '../UI/MyButton';
 import MyInput from '../UI/MyInput';
 import MySelect from '../UI/MySelect';
 import MyToggle from '../UI/MyToggle';
-import MyToggle1 from '../UI/MyCheckbox';
+import MyCheckbox from '../UI/MyCheckbox';
 import classes from './Form.module.scss';
 import { FormCard, Gender } from '../../types/formTypes';
 
@@ -58,26 +58,21 @@ export default class Form extends Component<Props, State> {
     };
   }
 
-  onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const name = e.target.name as keyof State;
     const inputAvatar = this.fileInput.current;
     if (name === 'file' && inputAvatar && inputAvatar.files) {
       this.setState({ img: URL.createObjectURL(inputAvatar.files[0]), file: true });
     }
-    console.log('name', name);
-
-    this.setState((prevState) => {
-      return { ...prevState, [name]: true };
-    }, this.enableButton);
-
-    if (!this.state.firstChangeForm) {
-      this.setState({ buttonsDisable: false });
-    }
+    this.handleInputANdSelect(name);
   };
 
-  onChangeSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  onChangeSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const name = e.target.name as keyof State;
-    console.log('name', name);
+    this.handleInputANdSelect(name);
+  };
+
+  handleInputANdSelect = (name: keyof State): void => {
     this.setState((prevState) => {
       return { ...prevState, [name]: true };
     }, this.enableButton);
@@ -87,7 +82,7 @@ export default class Form extends Component<Props, State> {
     }
   };
 
-  enableButton = () => {
+  enableButton = (): void => {
     if (
       this.state.country &&
       this.state.dataProcessing &&
@@ -119,29 +114,24 @@ export default class Form extends Component<Props, State> {
   };
 
   validationAll = (): boolean => {
-    const name = (this.nameInput.current as HTMLInputElement).value;
-    const surname = (this.surnameInput.current as HTMLInputElement).value;
-    const date = (this.dateInput.current as HTMLInputElement).value;
-    const inputAvatar = this.fileInput.current as HTMLInputElement;
-    const inputDataProcessing = this.checkboxProcessing.current as HTMLInputElement;
+    const { checkboxProcessing, inputAvatar, inputDate, inputName, inputSurname } =
+      this.getElementsFromRefs();
 
     let isValid = true;
-    isValid = this.isValidComponent(name.trim().length < 3, 'name') && isValid;
-    isValid = this.isValidComponent(surname.trim().length < 3, 'surname') && isValid;
-    const dataValue = new Date(date);
+    isValid = this.isValidComponent(inputName.value.trim().length < 3, 'name') && isValid;
+    isValid = this.isValidComponent(inputSurname.value.trim().length < 3, 'surname') && isValid;
+    const dataValue = new Date(inputDate.value);
     const currentDay = new Date();
-    isValid = this.isValidComponent(!date || dataValue > currentDay, 'date') && isValid;
+    isValid = this.isValidComponent(!inputDate.value || dataValue > currentDay, 'date') && isValid;
 
     isValid =
       this.isValidComponent(!!inputAvatar.files && !inputAvatar.files.length, 'file') && isValid;
-    isValid =
-      this.isValidComponent(inputDataProcessing.checked === false, 'dataProcessing') && isValid;
+    isValid = this.isValidComponent(!checkboxProcessing.checked, 'dataProcessing') && isValid;
 
     return isValid;
   };
 
-  onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  getElementsFromRefs = () => {
     const inputName = this.nameInput.current as HTMLInputElement;
     const inputSurname = this.surnameInput.current as HTMLInputElement;
     const inputDate = this.dateInput.current as HTMLInputElement;
@@ -150,8 +140,31 @@ export default class Form extends Component<Props, State> {
     const checkboxProcessing = this.checkboxProcessing.current as HTMLInputElement;
     const radioGenderMale = this.genderRadio1.current as HTMLInputElement;
     const radioGenderFemale = this.genderRadio2.current as HTMLInputElement;
+    return {
+      inputName,
+      inputSurname,
+      inputDate,
+      inputAvatar,
+      countrySelect,
+      checkboxProcessing,
+      radioGenderMale,
+      radioGenderFemale,
+    };
+  };
 
-    console.log('state', this.state);
+  onFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const {
+      checkboxProcessing,
+      countrySelect,
+      inputAvatar,
+      inputDate,
+      inputName,
+      inputSurname,
+      radioGenderFemale,
+      radioGenderMale,
+    } = this.getElementsFromRefs();
+
     this.setState({ firstChangeForm: true });
 
     if (!this.validationAll()) {
@@ -184,14 +197,16 @@ export default class Form extends Component<Props, State> {
   };
 
   resetStateInputs = () => {
-    const inputName = this.nameInput.current as HTMLInputElement;
-    const inputSurname = this.surnameInput.current as HTMLInputElement;
-    const inputDate = this.dateInput.current as HTMLInputElement;
-    const inputAvatar = this.fileInput.current as HTMLInputElement;
-    const countrySelect = this.countrySelect.current as HTMLSelectElement;
-    const checkboxProcessing = this.checkboxProcessing.current as HTMLInputElement;
-    const radioGender1 = this.genderRadio1.current as HTMLInputElement;
-    const radioGender2 = this.genderRadio2.current as HTMLInputElement;
+    const {
+      checkboxProcessing,
+      countrySelect,
+      inputAvatar,
+      inputDate,
+      inputName,
+      inputSurname,
+      radioGenderFemale,
+      radioGenderMale,
+    } = this.getElementsFromRefs();
 
     inputName.value = '';
     inputSurname.value = '';
@@ -199,8 +214,8 @@ export default class Form extends Component<Props, State> {
     countrySelect.value = 'UA';
     checkboxProcessing.checked = false;
     inputAvatar.value = '';
-    radioGender1.checked = true;
-    radioGender2.checked = false;
+    radioGenderMale.checked = true;
+    radioGenderFemale.checked = false;
 
     this.setState({
       name: true,
@@ -274,7 +289,7 @@ export default class Form extends Component<Props, State> {
           onChange={this.onChangeSelectHandler}
           data-testid="select-country"
         />
-        <MyToggle1
+        <MyCheckbox
           name="dataProcessing"
           label="Agree to data processing"
           reference={this.checkboxProcessing}
