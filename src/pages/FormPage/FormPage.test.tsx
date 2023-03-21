@@ -17,15 +17,14 @@ describe('FormPage', () => {
 
   test('renders with no cards', () => {
     render(<FormPage />);
-
-    const cardsElement = screen.queryByTestId('form-card');
-    expect(cardsElement).toBeNull;
+    const cardsElement = screen.queryByRole('listitem');
+    expect(cardsElement).toBeNull();
   });
 
   test('create 1 card', async () => {
     render(<FormPage />);
 
-    const inputName = screen.getByLabelText('Name');
+    const inputName = screen.getByLabelText(/^name/i);
     const inputSurname = screen.getByLabelText(/surname/i);
     const inputDate = screen.getByLabelText(/date/i);
     const inputFile = screen.getByLabelText(/avatar/i) as HTMLInputElement;

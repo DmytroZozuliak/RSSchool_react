@@ -10,7 +10,7 @@ describe('Form component', () => {
   test('type input name', async () => {
     render(<Form addCard={addCard} />);
 
-    const inputName = screen.getByLabelText('Name');
+    const inputName = screen.getByLabelText(/^name/i);
     expect(inputName).toBeInTheDocument();
 
     await userEvent.type(inputName, '12');
@@ -43,7 +43,7 @@ describe('Form component', () => {
     render(<Form addCard={addCard} />);
     const submitButton = screen.getByRole('button', { name: /create/i });
 
-    await userEvent.type(screen.getByLabelText('Name'), 'na');
+    await userEvent.type(screen.getByLabelText(/^name/i), 'na');
     await userEvent.click(submitButton);
 
     expect(submitButton).toBeDisabled();
@@ -53,7 +53,7 @@ describe('Form component', () => {
     render(<Form addCard={addCard} />);
     const submitButton = screen.getByRole('button', { name: /create/i });
 
-    await userEvent.type(screen.getByLabelText('Name'), 'na');
+    await userEvent.type(screen.getByLabelText(/^name/i), 'na');
     expect(submitButton).toBeEnabled();
   });
 
@@ -61,11 +61,11 @@ describe('Form component', () => {
     render(<Form addCard={addCard} />);
     const submitButton = screen.getByRole('button', { name: /create/i });
 
-    await userEvent.type(screen.getByLabelText('Name'), 'na');
+    await userEvent.type(screen.getByLabelText(/^name/i), 'na');
     expect(submitButton).toBeEnabled();
 
     await userEvent.click(submitButton);
-    await userEvent.type(screen.getByLabelText('Name'), 'nav');
+    await userEvent.type(screen.getByLabelText(/^name/i), 'nav');
 
     expect(submitButton).toBeDisabled();
   });

@@ -30,15 +30,13 @@ describe('CardsForm component', () => {
 
   test('renders FormCards', () => {
     render(<FormCards cards={cards} />);
-
     const name = screen.getByText(/dima/i);
     expect(name).toBeInTheDocument();
   });
 
   test('renders 2 FormCards', () => {
     render(<FormCards cards={cards} />);
-
-    const cardsElement = screen.queryAllByTestId('form-card');
+    const cardsElement = screen.getAllByRole('listitem');
     expect(cardsElement.length).toBe(2);
   });
 });

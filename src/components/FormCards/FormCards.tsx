@@ -19,7 +19,7 @@ export default class FormCards extends Component<Props> {
         {cards.length > 0 &&
           cards.map((card, index) => {
             return (
-              <li className={classes.miniCard} key={index} data-testid="form-card">
+              <li className={classes.miniCard} key={index}>
                 {card.img && <img src={card.img} alt="avatar" />}
                 <div className={classes.info}>
                   <span>
