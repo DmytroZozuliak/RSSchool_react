@@ -26,11 +26,11 @@
     outline-color: rgba(255, 255, 255, 0);
     outline-offset: 15px;
   }
-}
 
-.button.disable {
-  background-color: #c2c2c2;
-  color: #000000;
-  pointer-events: none;
-  user-select: none;
+  &:disabled {
+    background-color: #c2c2c2;
+    color: #000000;
+    pointer-events: none;
+    user-select: none;
+  }
 }
