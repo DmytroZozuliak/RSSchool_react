@@ -12,10 +12,6 @@ interface Props {
 }
 
 export default class ToggleCheckbox extends Component<Props & React.HTMLProps<HTMLInputElement>> {
-  changeHandler = () => {
-    console.log('changed');
-  };
-
   render() {
     const { reference1, reference2, option1, option2, valid, label, errorMessage, ...restArgs } =
       this.props;

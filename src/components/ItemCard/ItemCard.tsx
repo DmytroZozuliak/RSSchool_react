@@ -15,7 +15,7 @@ export default class Card extends Component<Props> {
     const { card } = this.props;
 
     return (
-      <li className={styles.cardWrapper} data-testid="store-card">
+      <li className={styles.cardWrapper}>
         <img className={styles.img} src={card.thumbnail} alt={card.title} />
         <div className={styles.infoWrapper}>
           <div className={styles.title}>{card.title}</div>

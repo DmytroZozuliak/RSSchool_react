@@ -240,7 +240,6 @@ export default class Form extends Component<Props, State> {
           errorMessage="Your name should contains at least 3 chars"
           reference={this.nameInput}
           onChange={this.onChangeInputHandler}
-          data-testid="input-name"
         />
         <MyInput
           label="Surname"
@@ -249,7 +248,6 @@ export default class Form extends Component<Props, State> {
           errorMessage="Your surname should contains at least 3 chars"
           reference={this.surnameInput}
           onChange={this.onChangeInputHandler}
-          data-testid="input-surname"
         />
         <MyToggle
           onChange={this.onChangeInputHandler}
@@ -268,7 +266,6 @@ export default class Form extends Component<Props, State> {
           errorMessage="Pick correct birth date"
           reference={this.dateInput}
           onChange={this.onChangeInputHandler}
-          data-testid="input-date"
         />
         <MyInput
           type="file"
@@ -279,7 +276,6 @@ export default class Form extends Component<Props, State> {
           errorMessage="You should download avatar"
           reference={this.fileInput}
           onChange={this.onChangeInputHandler}
-          data-testid="input-file"
         />
         <MySelect
           label="Choose your country"
@@ -287,7 +283,6 @@ export default class Form extends Component<Props, State> {
           reference={this.countrySelect}
           name="country"
           onChange={this.onChangeSelectHandler}
-          data-testid="select-country"
         />
         <MyCheckbox
           name="dataProcessing"
@@ -296,14 +291,13 @@ export default class Form extends Component<Props, State> {
           valid={this.state.dataProcessing}
           errorMessage="you should agree"
           onChange={this.onChangeInputHandler}
-          data-testid="input-dataProcessing"
         />
 
         <div className={classes.cardForm__buttons}>
-          <MyButton type="submit" disabled={this.state.buttonsDisable} data-testid="button-submit">
+          <MyButton type="submit" disabled={this.state.buttonsDisable}>
             Create card
           </MyButton>
-          <MyButton type="reset" onClick={this.resetStateInputs} data-testid="button-reset">
+          <MyButton type="reset" onClick={this.resetStateInputs}>
             Reset
           </MyButton>
         </div>
