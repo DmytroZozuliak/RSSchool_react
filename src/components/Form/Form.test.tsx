@@ -9,7 +9,8 @@ describe('Form component', () => {
 
   test('type input name', async () => {
     render(<Form addCard={addCard} />);
-    const inputName = screen.getByTestId('input-name');
+
+    const inputName = screen.getByLabelText('Name');
     expect(inputName).toBeInTheDocument();
 
     await userEvent.type(inputName, '12');
@@ -18,30 +19,31 @@ describe('Form component', () => {
 
   test('type input surname', async () => {
     render(<Form addCard={addCard} />);
-    const inputSurname = screen.getByTestId('input-surname');
+
+    const inputSurname = screen.getByLabelText(/surname/i);
     await userEvent.type(inputSurname, 'surname typing');
     expect(inputSurname).toHaveValue('surname typing');
   });
 
   test('type input date', async () => {
     render(<Form addCard={addCard} />);
-    const inputDate = screen.getByTestId('input-date');
+    const inputDate = screen.getByLabelText(/date/i);
     await userEvent.type(inputDate, '2020-01-02');
     expect(inputDate).toHaveValue('2020-01-02');
   });
 
   test('type input dataProcessing', async () => {
     render(<Form addCard={addCard} />);
-    const inputCheck = screen.getByTestId('input-dataProcessing');
+    const inputCheck = screen.getByLabelText(/processing/i);
     await userEvent.click(inputCheck);
     expect(inputCheck).toBeChecked();
   });
 
   test('check after type input name submit - disable', async () => {
     render(<Form addCard={addCard} />);
-    const submitButton = screen.getByTestId('button-submit');
+    const submitButton = screen.getByRole('button', { name: /create/i });
 
-    await userEvent.type(screen.getByTestId('input-name'), 'na');
+    await userEvent.type(screen.getByLabelText('Name'), 'na');
     await userEvent.click(submitButton);
 
     expect(submitButton).toBeDisabled();
@@ -49,21 +51,21 @@ describe('Form component', () => {
 
   test('check after type input name submit - enable', async () => {
     render(<Form addCard={addCard} />);
-    const submitButton = screen.getByTestId('button-submit');
+    const submitButton = screen.getByRole('button', { name: /create/i });
 
-    await userEvent.type(screen.getByTestId('input-name'), 'na');
+    await userEvent.type(screen.getByLabelText('Name'), 'na');
     expect(submitButton).toBeEnabled();
   });
 
   test('check after type input name submit - not disable', async () => {
     render(<Form addCard={addCard} />);
-    const submitButton = screen.getByTestId('button-submit');
+    const submitButton = screen.getByRole('button', { name: /create/i });
 
-    await userEvent.type(screen.getByTestId('input-name'), 'na');
+    await userEvent.type(screen.getByLabelText('Name'), 'na');
     expect(submitButton).toBeEnabled();
 
     await userEvent.click(submitButton);
-    await userEvent.type(screen.getByTestId('input-name'), 'nav');
+    await userEvent.type(screen.getByLabelText('Name'), 'nav');
 
     expect(submitButton).toBeDisabled();
   });
@@ -72,8 +74,9 @@ describe('Form component', () => {
     render(<Form addCard={addCard} />);
 
     const file = new File(['img'], 'chucknorris.png', { type: 'image/png' });
-    const submitButton = screen.getByTestId('button-submit');
-    const input = screen.getByTestId('input-file') as HTMLInputElement;
+    const submitButton = screen.getByRole('button', { name: /create/i });
+
+    const input = screen.getByLabelText(/avatar/i) as HTMLInputElement;
     await userEvent.upload(input, file);
 
     expect(submitButton).toBeEnabled();

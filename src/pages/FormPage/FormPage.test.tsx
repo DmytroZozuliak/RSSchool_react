@@ -11,7 +11,7 @@ describe('FormPage', () => {
   });
 
   afterEach(async () => {
-    const resetButton = screen.getByTestId('button-reset');
+    const resetButton = screen.getByRole('button', { name: /reset/i });
     await userEvent.click(resetButton);
   });
 
@@ -25,13 +25,13 @@ describe('FormPage', () => {
   test('create 1 card', async () => {
     render(<FormPage />);
 
-    const inputName = screen.getByTestId('input-name');
-    const inputSurname = screen.getByTestId('input-surname');
-    const inputDate = screen.getByTestId('input-date');
-    const inputFile = screen.getByTestId('input-file') as HTMLInputElement;
-    const select = screen.getByTestId('select-country');
-    const inputCheck = screen.getByTestId('input-dataProcessing') as HTMLInputElement;
-    const submitButton = screen.getByTestId('button-submit');
+    const inputName = screen.getByLabelText('Name');
+    const inputSurname = screen.getByLabelText(/surname/i);
+    const inputDate = screen.getByLabelText(/date/i);
+    const inputFile = screen.getByLabelText(/avatar/i) as HTMLInputElement;
+    const select = screen.getByLabelText(/country/i);
+    const inputCheck = screen.getByLabelText(/processing/i);
+    const submitButton = screen.getByRole('button', { name: /create/i });
 
     await userEvent.type(inputName, 'ddddd');
     await userEvent.click(submitButton);
