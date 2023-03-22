@@ -127,7 +127,6 @@ export default class Form extends Component<Props, State> {
     isValid =
       this.isValidComponent(!!inputAvatar.files && !inputAvatar.files.length, 'file') && isValid;
     isValid = this.isValidComponent(!checkboxProcessing.checked, 'dataProcessing') && isValid;
-
     return isValid;
   };
 
