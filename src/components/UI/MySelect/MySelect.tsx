@@ -1,31 +1,29 @@
-import React, { Component } from 'react';
 import classes from './MySelect.module.scss';
-
-interface Props {
+interface MySelectProps {
   values: string[];
   label: string;
   reference: React.RefObject<HTMLSelectElement>;
 }
 
-export default class MySelect extends Component<Props & React.HTMLProps<HTMLSelectElement>> {
-  render() {
-    const { reference, label, values, ...rest } = this.props;
+const MySelect = (props: MySelectProps & React.HTMLProps<HTMLSelectElement>) => {
+  const { reference, label, values, ...rest } = props;
 
-    return (
-      <div className={classes.Select}>
-        <label>
-          {label}
-          <select ref={reference} {...rest}>
-            {values.map((value) => {
-              return (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              );
-            })}
-          </select>
-        </label>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={classes.Select}>
+      <label>
+        {label}
+        <select ref={reference} {...rest}>
+          {values.map((value) => {
+            return (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            );
+          })}
+        </select>
+      </label>
+    </div>
+  );
+};
+
+export default MySelect;
