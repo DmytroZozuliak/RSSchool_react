@@ -1,15 +1,19 @@
+import { forwardRef } from 'react';
 import styles from './MyButton.module.scss';
 
-const MyButton = (
-  props: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
-) => {
+type Ref = HTMLButtonElement;
+
+const MyButton = forwardRef<
+  Ref,
+  React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+>((props, ref) => {
   const { disabled, ...restProps } = props;
 
   return (
-    <button disabled={disabled} className={styles.button} {...restProps}>
+    <button ref={ref} disabled={disabled} className={styles.button} {...restProps}>
       {props.children}
     </button>
   );
-};
+});
 
 export default MyButton;

@@ -21,7 +21,7 @@ const FormCards = ({ cards }: FormCardsProps) => {
                   surname: <span>{card.surname}</span>
                 </span>
                 <span>
-                  gender: <span>{card.genderMale}</span>
+                  gender: <span>{card.gender}</span>
                 </span>
                 <span>
                   date of birth: <span>{card.date}</span>

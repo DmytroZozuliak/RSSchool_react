@@ -1,31 +1,20 @@
-import React, { Component } from 'react';
+import { useEffect, useState } from 'react';
 import MyInput from '../UI/MyInput';
 
-interface State {
-  term: string;
-}
+const InputSearch = () => {
+  const [term, setTerm] = useState(() => localStorage.getItem('goodsSearchBar') || '');
 
-export default class InputSearch extends Component<Record<string, never>, State> {
-  state = {
-    term: localStorage.getItem('goodsSearchBar') || '',
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTerm(e.target.value);
   };
 
-  componentWillUnmount(): void {
-    localStorage.setItem('goodsSearchBar', this.state.term);
-  }
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('goodsSearchBar', term);
+    };
+  }, [term]);
 
-  handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ term: event.target.value });
-  };
+  return <MyInput type="search" placeholder="search..." value={term} onChange={onChangeHandler} />;
+};
 
-  render() {
-    return (
-      <MyInput
-        type="search"
-        placeholder="search..."
-        value={this.state.term}
-        onChange={this.handleChangeSearch}
-      />
-    );
-  }
-}
+export default InputSearch;

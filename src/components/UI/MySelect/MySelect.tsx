@@ -1,18 +1,19 @@
+import { forwardRef } from 'react';
 import classes from './MySelect.module.scss';
-interface MySelectProps {
+interface MySelectProps extends React.HTMLProps<HTMLSelectElement> {
   values: string[];
   label: string;
-  reference: React.RefObject<HTMLSelectElement>;
 }
+type Ref = HTMLSelectElement;
 
-const MySelect = (props: MySelectProps & React.HTMLProps<HTMLSelectElement>) => {
-  const { reference, label, values, ...rest } = props;
+const MySelect = forwardRef<Ref, MySelectProps>((props, ref) => {
+  const { label, values, ...rest } = props;
 
   return (
     <div className={classes.Select}>
       <label>
         {label}
-        <select ref={reference} {...rest}>
+        <select {...rest} ref={ref}>
           {values.map((value) => {
             return (
               <option key={value} value={value}>
@@ -24,6 +25,6 @@ const MySelect = (props: MySelectProps & React.HTMLProps<HTMLSelectElement>) => 
       </label>
     </div>
   );
-};
+});
 
 export default MySelect;

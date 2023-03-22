@@ -1,15 +1,17 @@
+import React, { forwardRef } from 'react';
 import classes from './MyInput.module.scss';
-interface MyInputProps {
+interface MyInputProps extends React.HTMLProps<HTMLInputElement> {
   type?: string;
   label?: string;
   errorMessage?: string;
-  valid?: boolean;
-  reference?: React.RefObject<HTMLInputElement>;
   image?: string | null;
 }
+type Ref = HTMLInputElement;
 
-const MyInput = (props: MyInputProps & React.HTMLProps<HTMLInputElement>) => {
-  const { type = 'text', label, errorMessage, valid, reference, image, ...restProps } = props;
+const MyInput = forwardRef<Ref, MyInputProps>((props, ref) => {
+  const { type = 'text', label, errorMessage, image, ...restProps } = props;
+
+  const isValid = !!errorMessage;
 
   const cls = [classes.myInput];
   if (type === 'search') {
@@ -19,21 +21,17 @@ const MyInput = (props: MyInputProps & React.HTMLProps<HTMLInputElement>) => {
     cls.push(classes.file);
   }
 
-  let isValid = false;
-  if (!valid) {
-    isValid = true;
-  }
   return (
     <div className={cls.join(' ')}>
       <label className={`${classes.label} ${isValid ? classes.invalid : ''}`}>
         {label}
         {type === 'file' && image && <img src={image} alt="avatar" />}
-        <input type={type} ref={reference} {...restProps} />
+        <input type={type} ref={ref} {...restProps} />
       </label>
 
       {isValid && errorMessage && <span>{errorMessage}</span>}
     </div>
   );
-};
+});
 
 export default MyInput;
