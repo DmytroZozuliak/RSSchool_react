@@ -7,33 +7,9 @@ import MyCheckbox from '../UI/MyCheckbox';
 import classes from './Form.module.scss';
 import { FormCard, Gender } from '../../types/formTypes';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
-
-const validationSchema = Yup.object({
-  name: Yup.string().required('Name is required').min(3, 'Name should have at least 3 characters'),
-  surname: Yup.string()
-    .required('Surname is required')
-    .min(3, 'Surname should have at least 3 characters'),
-  date: Yup.date()
-    .nullable()
-    .transform((curr, orig) => (orig === '' ? null : curr))
-    .required('Date is required')
-    .max(new Date(), 'Pick correct birth date'),
-  dataProcessing: Yup.boolean().oneOf([true], 'Data processing is required'),
-  //  TODO
-  file: Yup.mixed<FileList>()
-    .nullable()
-    .required('You need to provide a file')
-    .test('fileType', 'Unsupported File Format', (files) =>
-      SUPPORTED_FORMATS.includes(files[0].type)
-    )
-    .test('fileSize', 'File size too large', (files) => {
-      return files[0].size <= 1000000;
-    }),
-});
+import { validationSchema } from '../../utils/validationSchema';
+import { SUPPORTED_FORMATS } from '../../constants/constants';
 
 interface FormProps {
   addCard: (card: FormCard) => void;
@@ -43,7 +19,7 @@ interface FormValues {
   name: string;
   surname: string;
   gender: Gender;
-  date: string;
+  date: Date | null;
   country: string;
   dataProcessing: boolean;
   file: FileList | null;
@@ -55,7 +31,7 @@ const defaultValues: FormValues = {
   gender: 'male',
   country: 'UA',
   dataProcessing: false,
-  date: '',
+  date: null,
   file: null,
 };
 
@@ -68,7 +44,7 @@ const Form = ({ addCard }: FormProps) => {
     clearErrors,
   } = useForm<FormValues>({
     resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
+    defaultValues,
   });
   const [logo, setLogo] = useState<null | string>(null);
   const [submitDisable, setSubmitDisable] = useState(true);
@@ -84,7 +60,7 @@ const Form = ({ addCard }: FormProps) => {
     const newCard: FormCard = {
       name,
       surname,
-      date,
+      date: (date && date.toLocaleDateString()) || '',
       country,
       dataProcessing,
       gender,

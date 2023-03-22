@@ -8,7 +8,7 @@ interface FormCardsProps {
 const FormCards = ({ cards }: FormCardsProps) => {
   return (
     <ul className={classes.miniCards}>
-      {cards.length > 0 &&
+      {cards.length > 0 ? (
         cards.map((card, index) => {
           return (
             <li className={classes.miniCard} key={index}>
@@ -35,7 +35,10 @@ const FormCards = ({ cards }: FormCardsProps) => {
               </div>
             </li>
           );
-        })}
+        })
+      ) : (
+        <p>No cards yet</p>
+      )}
     </ul>
   );
 };
