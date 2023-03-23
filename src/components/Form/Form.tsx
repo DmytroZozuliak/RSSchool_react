@@ -10,7 +10,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from '../../utils/validationSchema';
 import { COUNTRIES, SUPPORTED_FORMATS } from '../../constants/constants';
-
 interface FormProps {
   addCard: (card: FormCard) => void;
 }
