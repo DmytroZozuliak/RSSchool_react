@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import MyButton from '../UI/MyButton';
 import MyInput from '../UI/MyInput';
 import MySelect from '../UI/MySelect';
 import MyToggle from '../UI/MyToggle';
 import MyCheckbox from '../UI/MyCheckbox';
 import classes from './Form.module.scss';
-import { FormCard, Gender } from '../../types/formTypes';
+import { countriesType, FormCard, Gender } from '../../types/formTypes';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from '../../utils/validationSchema';
-import { SUPPORTED_FORMATS } from '../../constants/constants';
+import { COUNTRIES, SUPPORTED_FORMATS } from '../../constants/constants';
 
 interface FormProps {
   addCard: (card: FormCard) => void;
 }
 
-interface FormValues {
+export interface FormValues {
   name: string;
   surname: string;
   gender: Gender;
-  date: Date | null;
-  country: string;
+  date: Date | string;
+  country: countriesType;
   dataProcessing: boolean;
   file: FileList | null;
 }
@@ -31,7 +31,7 @@ const defaultValues: FormValues = {
   gender: 'male',
   country: 'UA',
   dataProcessing: false,
-  date: null,
+  date: '',
   file: null,
 };
 
@@ -57,10 +57,11 @@ const Form = ({ addCard }: FormProps) => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const { name, surname, country, dataProcessing, date, gender } = data;
+    const dateResult = date instanceof Date ? date.toLocaleDateString() : '';
     const newCard: FormCard = {
       name,
       surname,
-      date: (date && date.toLocaleDateString()) || '',
+      date: dateResult,
       country,
       dataProcessing,
       gender,
@@ -70,35 +71,35 @@ const Form = ({ addCard }: FormProps) => {
     resetForm();
   };
 
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name as keyof FormValues;
-    if (
-      name === 'file' &&
-      e.target.files?.length &&
-      SUPPORTED_FORMATS.includes(e.target.files[0].type)
-    ) {
-      setLogo(URL.createObjectURL(e.target.files[0]));
-    } else if (name === 'file' && e.target.files?.length === 0) {
-      setLogo(null);
-    }
-    if (errors[name]) {
-      clearErrors(name);
-    }
-  };
+  const onChangeHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const name = e.target.name as keyof FormValues;
+      if (errors[name]) {
+        clearErrors(name);
+      }
+      if (name !== 'file') {
+        return;
+      }
+      const file = e.target.files?.[0];
+      if (!file || !SUPPORTED_FORMATS.includes(file.type)) {
+        setLogo(null);
+        return;
+      }
+      setLogo(URL.createObjectURL(file));
+    },
+    [setLogo, clearErrors, errors]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (logo) {
+        URL.revokeObjectURL(logo);
+      }
+    };
+  }, [logo]);
 
   const submitButtonDisabled = () => {
-    if (
-      submitDisable ||
-      errors.dataProcessing ||
-      errors.date ||
-      errors.file ||
-      errors.name ||
-      errors.surname
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    return submitDisable || Object.values(errors).some((error) => Boolean(error));
   };
 
   return (
@@ -136,11 +137,7 @@ const Form = ({ addCard }: FormProps) => {
         errorMessage={errors.file?.message}
         onChange={onChangeHandler}
       />
-      <MySelect
-        {...register('country')}
-        label="Choose your country"
-        values={['UA', 'USA', 'PL', 'D', 'SP']}
-      />
+      <MySelect {...register('country')} label="Choose your country" values={COUNTRIES} />
       <MyCheckbox
         {...register('dataProcessing')}
         label="Agree to data processing"

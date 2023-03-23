@@ -9,7 +9,6 @@ interface ToggleCheckboxProps extends React.HTMLProps<HTMLInputElement> {
 type Ref = HTMLInputElement;
 
 const MyToggle = forwardRef<Ref, ToggleCheckboxProps>((props, ref) => {
-  // const MyToggle = (props: ToggleCheckboxProps) => {
   const { option1, option2, label, ...restArgs } = props;
 
   return (

@@ -12,17 +12,19 @@ const MyInput = forwardRef<Ref, MyInputProps>((props, ref) => {
   const { type = 'text', label, errorMessage, image, ...restProps } = props;
 
   const isValid = !!errorMessage;
-
-  const cls = [classes.myInput];
+  let inputClasses = classes.myInput;
   if (type === 'search') {
-    cls.push(classes.search);
+    inputClasses += ` ${classes.search}`;
   }
   if (type === 'file') {
-    cls.push(classes.file);
+    inputClasses += ` ${classes.file}`;
+  }
+  if (isValid) {
+    inputClasses += ` ${classes.invalid}`;
   }
 
   return (
-    <div className={cls.join(' ')}>
+    <div className={inputClasses}>
       <label className={`${classes.label} ${isValid ? classes.invalid : ''}`}>
         {label}
         {type === 'file' && image && <img src={image} alt="avatar" />}

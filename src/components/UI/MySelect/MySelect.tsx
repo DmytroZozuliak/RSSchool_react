@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import classes from './MySelect.module.scss';
 interface MySelectProps extends React.HTMLProps<HTMLSelectElement> {
-  values: string[];
+  values: Readonly<string[]>;
   label: string;
 }
 type Ref = HTMLSelectElement;
