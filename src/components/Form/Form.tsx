@@ -114,7 +114,7 @@ export default class Form extends Component<Props, State> {
   };
 
   validationAll = (): boolean => {
-    const { checkboxProcessing, inputAvatar, inputDate, inputName, inputSurname } =
+    const { checkboxProcessing, inputAvatar, inputDate, inputName, inputSurname, countrySelect } =
       this.getElementsFromRefs();
 
     let isValid = true;
@@ -127,6 +127,7 @@ export default class Form extends Component<Props, State> {
     isValid =
       this.isValidComponent(!!inputAvatar.files && !inputAvatar.files.length, 'file') && isValid;
     isValid = this.isValidComponent(!checkboxProcessing.checked, 'dataProcessing') && isValid;
+    isValid = this.isValidComponent(countrySelect.value === 'default', 'country') && isValid;
     return isValid;
   };
 
@@ -210,7 +211,7 @@ export default class Form extends Component<Props, State> {
     inputName.value = '';
     inputSurname.value = '';
     inputDate.value = '';
-    countrySelect.value = 'UA';
+    countrySelect.value = 'default';
     checkboxProcessing.checked = false;
     inputAvatar.value = '';
     radioGenderMale.checked = true;
@@ -279,6 +280,8 @@ export default class Form extends Component<Props, State> {
         <MySelect
           label="Choose your country"
           values={['UA', 'USA', 'PL', 'D', 'SP']}
+          valid={this.state.country}
+          errorMessage="Field required"
           reference={this.countrySelect}
           name="country"
           onChange={this.onChangeSelectHandler}

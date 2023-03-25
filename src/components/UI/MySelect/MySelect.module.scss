@@ -12,8 +12,13 @@
   max-width: 300px;
 
   label {
+    text-transform: capitalize;
     display: block;
     margin-bottom: 5px;
+  }
+
+  .label.invalid {
+    color: #e1646e;
   }
 
   select {
@@ -33,5 +38,13 @@
     option {
       background-color: #16363b;
     }
+  }
+
+  span {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    color: #e1646e;
+    font-size: 12px;
   }
 }
