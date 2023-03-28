@@ -1,0 +1,11 @@
+.cardWrapper {
+  display: grid;
+  list-style-type: none;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  justify-content: space-around;
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}

@@ -1,0 +1,16 @@
+.search {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+
+  input {
+    width: 400px;
+    font-size: 20px;
+    padding: 5px 10px;
+  }
+
+  span {
+    font-size: 20px;
+  }
+}
