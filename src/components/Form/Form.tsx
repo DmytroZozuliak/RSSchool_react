@@ -7,8 +7,6 @@ import MyCheckbox from '../UI/MyCheckbox';
 import classes from './Form.module.scss';
 import { countriesType, FormCard, Gender } from '../../types/formTypes';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { validationSchema } from '../../utils/validationSchema';
 import { COUNTRIES, SUPPORTED_FORMATS } from '../../constants/constants';
 interface FormProps {
   addCard: (card: FormCard) => void;
@@ -28,7 +26,7 @@ const defaultValues: FormValues = {
   name: '',
   surname: '',
   gender: 'male',
-  country: 'UA',
+  country: 'default',
   dataProcessing: false,
   date: '',
   file: null,
@@ -42,7 +40,6 @@ const Form = ({ addCard }: FormProps) => {
     formState: { errors },
     clearErrors,
   } = useForm<FormValues>({
-    resolver: yupResolver(validationSchema),
     defaultValues,
   });
   const [logo, setLogo] = useState<null | string>(null);
@@ -70,7 +67,7 @@ const Form = ({ addCard }: FormProps) => {
     resetForm();
   };
 
-  const onChangeHandler = useCallback(
+  const onChangeInputHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const name = e.target.name as keyof FormValues;
       if (errors[name]) {
@@ -89,6 +86,16 @@ const Form = ({ addCard }: FormProps) => {
     [setLogo, clearErrors, errors]
   );
 
+  const onChangeSelectHandler = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const name = e.target.name as keyof FormValues;
+      if (errors[name]) {
+        clearErrors(name);
+      }
+    },
+    [clearErrors, errors]
+  );
+
   useEffect(() => {
     return () => {
       if (logo) {
@@ -101,6 +108,48 @@ const Form = ({ addCard }: FormProps) => {
     return submitDisable || Object.values(errors).some((error) => Boolean(error));
   };
 
+  const nameRegister = register('name', {
+    required: 'Name is required',
+    minLength: {
+      value: 3,
+      message: 'Name should have at least 3 characters',
+    },
+  });
+  const surnameRegister = register('surname', {
+    required: 'Surname is required',
+    minLength: {
+      value: 3,
+      message: 'Surname should have at least 3 characters',
+    },
+  });
+
+  const fileRegister = register('file', {
+    required: 'You need to provide a file',
+    validate: {
+      fileType: (files) =>
+        (files && SUPPORTED_FORMATS.includes(files[0].type)) || 'Unsupported File Format',
+      fileSize: (files) => (files && files[0].size <= 1000000) || 'File size too large',
+    },
+  });
+
+  const dateRegister = register('date', {
+    valueAsDate: true,
+    required: 'Date is required',
+    validate: {
+      maxDate: (date) => date < new Date() || 'Pick correct birth date',
+    },
+  });
+
+  const countryRegister = register('country', {
+    validate: {
+      notDefault: (country) => country !== 'default' || 'Field required',
+    },
+  });
+
+  const dataProcessingRegister = register('dataProcessing', {
+    required: 'Data processing is required',
+  });
+
   return (
     <form
       className={classes.cardForm}
@@ -108,37 +157,44 @@ const Form = ({ addCard }: FormProps) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <MyInput
-        {...register('name')}
-        onChange={onChangeHandler}
+        {...nameRegister}
+        onChange={onChangeInputHandler}
         label="Name"
         errorMessage={errors.name?.message}
       />
       <MyInput
-        {...register('surname')}
-        onChange={onChangeHandler}
+        {...surnameRegister}
+        onChange={onChangeInputHandler}
         label="Surname"
         errorMessage={errors.surname?.message}
       />
       <MyToggle {...register('gender')} option1="male" option2="female" label="Gender" />
 
       <MyInput
-        {...register('date')}
+        {...dateRegister}
         type="date"
         label="Birth date"
-        onChange={onChangeHandler}
+        onChange={onChangeInputHandler}
         errorMessage={errors.date?.message}
       />
       <MyInput
         type="file"
-        {...register('file')}
+        {...fileRegister}
         image={logo}
         label="Avatar"
         errorMessage={errors.file?.message}
-        onChange={onChangeHandler}
+        onChange={onChangeInputHandler}
       />
-      <MySelect {...register('country')} label="Choose your country" values={COUNTRIES} />
+      <MySelect
+        errorMessage={errors.country?.message}
+        defaultOption="--select a country--"
+        {...countryRegister}
+        onChange={onChangeSelectHandler}
+        label="Choose your country"
+        values={COUNTRIES}
+      />
       <MyCheckbox
-        {...register('dataProcessing')}
+        {...dataProcessingRegister}
         label="Agree to data processing"
         errorMessage={errors.dataProcessing?.message}
       />
