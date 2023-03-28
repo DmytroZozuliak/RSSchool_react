@@ -15,7 +15,7 @@ const MySelect = forwardRef<Ref, MySelectProps>((props, ref) => {
     <div className={classes.Select}>
       <label>
         {label}
-        <select {...rest} ref={ref}>
+        <select autoComplete="none" autoCorrect="none" {...rest} ref={ref}>
           {defaultOption && <option value="default">{defaultOption}</option>}
           {values.map((value) => {
             return (

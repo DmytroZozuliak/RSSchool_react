@@ -28,7 +28,7 @@ const MyInput = forwardRef<Ref, MyInputProps>((props, ref) => {
       <label className={`${classes.label} ${isValid ? classes.invalid : ''}`}>
         {label}
         {type === 'file' && image && <img src={image} alt="avatar" />}
-        <input type={type} ref={ref} {...restProps} />
+        <input autoComplete="none" autoCorrect="none" type={type} ref={ref} {...restProps} />
       </label>
 
       {isValid && errorMessage && <span>{errorMessage}</span>}
