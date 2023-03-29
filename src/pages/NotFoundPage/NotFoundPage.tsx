@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import MyButton from '../../components/UI/MyButton';
 import styles from './notFoundPage.module.scss';
 
 const NotFoundPage = () => {
@@ -7,7 +8,7 @@ const NotFoundPage = () => {
     <div className={styles.page}>
       <h1 className={styles.title}>404 Page not found</h1>
       <NavLink to="/">
-        <button>Return to Home page</button>
+        <MyButton>Return to Home page</MyButton>
       </NavLink>
     </div>
   );

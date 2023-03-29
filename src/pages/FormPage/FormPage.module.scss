@@ -1,0 +1,8 @@
+@import '../../styles/variables.scss';
+
+.message {
+  position: absolute;
+  top: 50%;
+  font-size: 20px;
+  color: $primaryColor;
+}

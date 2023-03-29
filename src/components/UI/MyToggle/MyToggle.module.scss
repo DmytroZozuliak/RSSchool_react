@@ -1,0 +1,117 @@
+@import '../../../styles/variables.scss';
+
+$toggleWidth: 3rem;
+$toggleHeight: 1.5rem;
+$toggleOutsideR: 1rem;
+$toggleInsideR: 2.5rem;
+$toggleInsideWidth: 1.25rem;
+$toggleInsideHeight: 1.25rem;
+$toggleOutsidePadding: 0.125rem;
+
+$toggleLeftInside: 0.125rem;
+$toggleRightInside: 1.625rem;
+
+$labelSize: 1rem;
+$labelLineHeight: 1rem;
+
+$toggleInsideColor: $primaryColor;
+
+.toggleWrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  padding-bottom: 15px;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  position: relative;
+  input {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+    &:checked {
+      z-index: 1;
+      & + label {
+        opacity: 1;
+        cursor: default;
+      }
+    }
+    &:not(:checked) {
+      & + label {
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+  label {
+    color: #fff;
+    opacity: 0.33;
+    transition: opacity 0.25s ease;
+    cursor: pointer;
+  }
+  .toggle-outside {
+    height: 100%;
+    border-radius: $toggleOutsideR;
+    padding: $toggleOutsidePadding;
+    overflow: hidden;
+    transition: 0.25s ease all;
+  }
+  .toggle-inside {
+    border-radius: $toggleInsideR;
+    background: $toggleInsideColor;
+    position: absolute;
+    transition: 0.25s ease all;
+  }
+}
+.switch--horizontal {
+  width: calc($toggleWidth * 3);
+  height: $toggleHeight;
+  font-size: 0;
+  input {
+    height: $toggleHeight;
+    width: $toggleWidth;
+    left: $toggleWidth;
+    margin: 0;
+    &:checked {
+      & ~ .toggle-outside {
+        .toggle-inside {
+          left: $toggleLeftInside;
+        }
+      }
+    }
+    & ~ input {
+      &:checked {
+        & ~ .toggle-outside {
+          .toggle-inside {
+            left: $toggleRightInside;
+          }
+        }
+      }
+    }
+  }
+  label {
+    font-size: $labelSize;
+    line-height: $labelLineHeight;
+    width: $toggleWidth;
+    margin: 0;
+    text-align: center;
+    &:last-of-type {
+      margin-left: calc($toggleWidth + 20px);
+    }
+  }
+  .toggle-outside {
+    background: #fff;
+    position: absolute;
+    width: $toggleWidth;
+    left: $toggleWidth;
+  }
+  .toggle-inside {
+    height: $toggleInsideHeight;
+    width: $toggleInsideWidth;
+  }
+}

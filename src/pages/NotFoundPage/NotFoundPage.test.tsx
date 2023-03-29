@@ -16,7 +16,7 @@ describe('NotFoundPage component', () => {
     expect(errorText).toBeInTheDocument();
   });
 
-  test('should return to home page after click inside 404 page', async () => {
+  test('should return to home page after 404 page', async () => {
     renderWithRouter('/404');
 
     const button = screen.getByRole('button');

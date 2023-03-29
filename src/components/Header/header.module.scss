@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .header {
   background: #352a2a;
 }
@@ -22,9 +24,9 @@
 }
 
 .active {
-  color: #d35f2a;
+  color: $activeColor;
 }
 
 .navLink:hover {
-  color: #535bf2;
+  color: #d35f2a;
 }

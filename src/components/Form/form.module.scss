@@ -1,0 +1,23 @@
+@import '../../styles/variables.scss';
+
+.cardForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  margin: 0px auto;
+
+  border: 3px solid $primaryColor;
+  border-radius: 25px;
+  padding: 5px 25px;
+
+  & > * {
+    margin-bottom: 5px;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    column-gap: 50px;
+  }
+}

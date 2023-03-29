@@ -1,0 +1,55 @@
+@import '../../../styles/variables.scss';
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  padding-bottom: 15px;
+
+  & > span {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    color: #e1646e;
+    font-size: 12px;
+  }
+}
+
+.title {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+.title.invalid {
+  color: #e1646e;
+}
+
+.input {
+  display: none;
+}
+
+.label {
+  display: block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 2px solid $primaryColor;
+  cursor: pointer;
+}
+.label:after {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: transparent;
+}
+
+.input:checked + .label:after {
+  background: $primaryColor;
+}
