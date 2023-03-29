@@ -26,21 +26,8 @@ interface FormProps {
 const Form = ({ addCard }: FormProps) => {
   const [logo, setLogo] = useState<null | string>(null);
   const [submitDisable, setSubmitDisable] = useState(true);
-  const {
-    handleSubmit,
-    reset,
-    errors,
-    clearErrors,
-    register,
-    registerValidation: {
-      countryRegister,
-      dataProcessingRegister,
-      dateRegister,
-      fileRegister,
-      nameRegister,
-      surnameRegister,
-    },
-  } = useValidation(defaultValues);
+  const { handleSubmit, reset, errors, clearErrors, registerValidation } =
+    useValidation(defaultValues);
 
   const resetForm = () => {
     reset(defaultValues);
@@ -112,21 +99,21 @@ const Form = ({ addCard }: FormProps) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <MyInput
-        {...nameRegister}
+        {...registerValidation.name}
         onChange={onChangeInputHandler}
         label="Name"
         errorMessage={errors.name?.message}
       />
       <MyInput
-        {...surnameRegister}
+        {...registerValidation.surname}
         onChange={onChangeInputHandler}
         label="Surname"
         errorMessage={errors.surname?.message}
       />
-      <MyToggle {...register('gender')} option1="male" option2="female" label="Gender" />
+      <MyToggle {...registerValidation.gender} option1="male" option2="female" label="Gender" />
 
       <MyInput
-        {...dateRegister}
+        {...registerValidation.date}
         type="date"
         label="Birth date"
         onChange={onChangeInputHandler}
@@ -134,7 +121,7 @@ const Form = ({ addCard }: FormProps) => {
       />
       <MyInput
         type="file"
-        {...fileRegister}
+        {...registerValidation.file}
         image={logo}
         label="Avatar"
         errorMessage={errors.file?.message}
@@ -143,13 +130,13 @@ const Form = ({ addCard }: FormProps) => {
       <MySelect
         errorMessage={errors.country?.message}
         defaultOption="--select a country--"
-        {...countryRegister}
+        {...registerValidation.country}
         onChange={onChangeSelectHandler}
         label="Choose your country"
         values={COUNTRIES}
       />
       <MyCheckbox
-        {...dataProcessingRegister}
+        {...registerValidation.dataProcessing}
         label="Agree to data processing"
         errorMessage={errors.dataProcessing?.message}
       />

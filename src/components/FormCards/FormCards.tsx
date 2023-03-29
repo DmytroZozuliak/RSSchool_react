@@ -30,7 +30,7 @@ const FormCards = ({ cards }: FormCardsProps) => {
                   country: <span>{card.country}</span>
                 </span>
                 <span>
-                  data processing: <span>{card.dataProcessing ? 'agree' : 'dont agree'}</span>
+                  data processing: <span>{card.dataProcessing ? 'agree' : "don't agree"}</span>
                 </span>
               </div>
             </li>

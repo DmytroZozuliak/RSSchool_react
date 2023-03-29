@@ -13,14 +13,14 @@ const useFormWithValidation = (defaultValues: FormValues) => {
     defaultValues,
   });
 
-  const nameRegister = register('name', {
+  const name = register('name', {
     required: 'Name is required',
     minLength: {
       value: 3,
       message: 'Name should have at least 3 characters',
     },
   });
-  const surnameRegister = register('surname', {
+  const surname = register('surname', {
     required: 'Surname is required',
     minLength: {
       value: 3,
@@ -28,7 +28,7 @@ const useFormWithValidation = (defaultValues: FormValues) => {
     },
   });
 
-  const fileRegister = register('file', {
+  const file = register('file', {
     required: 'You need to provide a file',
     validate: {
       fileType: (files) =>
@@ -37,7 +37,7 @@ const useFormWithValidation = (defaultValues: FormValues) => {
     },
   });
 
-  const dateRegister = register('date', {
+  const date = register('date', {
     valueAsDate: true,
     required: 'Date is required',
     validate: {
@@ -45,25 +45,27 @@ const useFormWithValidation = (defaultValues: FormValues) => {
     },
   });
 
-  const countryRegister = register('country', {
+  const country = register('country', {
     validate: {
       notDefault: (country) => country !== 'default' || 'Field required',
     },
   });
 
-  const dataProcessingRegister = register('dataProcessing', {
+  const dataProcessing = register('dataProcessing', {
     required: 'Data processing is required',
   });
 
+  const gender = register('gender');
+
   return {
-    register,
     registerValidation: {
-      nameRegister,
-      surnameRegister,
-      fileRegister,
-      dateRegister,
-      countryRegister,
-      dataProcessingRegister,
+      name,
+      surname,
+      file,
+      date,
+      country,
+      dataProcessing,
+      gender,
     },
     handleSubmit,
     reset,
