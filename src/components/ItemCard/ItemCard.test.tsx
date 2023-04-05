@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Product } from '../../types/itemType';
 import Card from './ItemCard';
 
@@ -35,5 +36,25 @@ describe('Card component', () => {
     render(<Card card={card} />);
     const img = screen.getByRole('img');
     expect(img).toBeInTheDocument();
+  });
+
+  test('should modal show', async () => {
+    render(<Card card={card} />);
+    const element = screen.getByRole('listitem');
+
+    await userEvent.click(element);
+    const text = screen.getByText(card.description);
+    expect(text).toBeInTheDocument();
+  });
+
+  test('should modal show and close', async () => {
+    render(<Card card={card} />);
+    const element = screen.getByRole('listitem');
+    await userEvent.click(element);
+    const text = screen.getByText(card.description);
+    expect(text).toBeInTheDocument();
+    const closeButton = screen.getByText('✕');
+    await userEvent.click(closeButton);
+    expect(text).not.toBeInTheDocument();
   });
 });
