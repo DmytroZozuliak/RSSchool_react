@@ -33,7 +33,6 @@ const HomePage = () => {
   useEffect(() => {
     const controller = new AbortController();
     fetchProducts(controller);
-
     return () => controller.abort();
   }, []);
 

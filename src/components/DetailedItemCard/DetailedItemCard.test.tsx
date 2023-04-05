@@ -37,4 +37,14 @@ describe('Card component', () => {
     const img = screen.getAllByRole('img');
     expect(img.length).toBe(card.images.length);
   });
+  test('should be unmount', () => {
+    const { getByText, queryByText, unmount } = render(
+      <DetailedItemCard card={card} activeModal={true} hideModal={mockFn} />
+    );
+    const title = 'iPhone 9';
+
+    expect(getByText(title)).toBeInTheDocument();
+    unmount();
+    expect(queryByText(title)).not.toBeInTheDocument();
+  });
 });
