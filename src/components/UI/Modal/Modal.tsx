@@ -1,4 +1,3 @@
-import { createPortal } from 'react-dom';
 import { ReactNode } from 'react';
 import styles from './Modal.module.scss';
 
@@ -13,7 +12,7 @@ const Modal = ({ activeModal, children, hideModal }: ModalProps) => {
     return null;
   }
 
-  return createPortal(
+  return (
     <div className={`${styles.modal} ${activeModal ? styles.active : ''}`} onClick={hideModal}>
       <div className={styles.content} onClick={(e) => e.stopPropagation()}>
         <div className={styles.close} onClick={hideModal}>
@@ -21,8 +20,7 @@ const Modal = ({ activeModal, children, hideModal }: ModalProps) => {
         </div>
         {children}
       </div>
-    </div>,
-    document.getElementById('modal') as HTMLElement
+    </div>
   );
 };
 

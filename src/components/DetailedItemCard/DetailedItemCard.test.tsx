@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { Product } from '../../types/itemType';
-import Card from './DetailedItemCard';
+import { vi } from 'vitest';
+import DetailedItemCard from './DetailedItemCard';
+
+const mockFn = vi.fn();
 
 const card: Product = {
   id: 1,
@@ -24,16 +27,14 @@ const card: Product = {
 
 describe('Card component', () => {
   test('should render', () => {
-    render(<Card card={card} />);
-    const element = screen.getByRole('listitem');
-    expect(element).toBeInTheDocument();
+    render(<DetailedItemCard card={card} activeModal={true} hideModal={mockFn} />);
     const text = screen.getByText('iPhone 9');
     expect(text).toBeInTheDocument();
   });
 
   test('should render img', () => {
-    render(<Card card={card} />);
-    const img = screen.getByRole('img');
-    expect(img).toBeInTheDocument();
+    render(<DetailedItemCard card={card} activeModal={true} hideModal={mockFn} />);
+    const img = screen.getAllByRole('img');
+    expect(img.length).toBe(card.images.length);
   });
 });
