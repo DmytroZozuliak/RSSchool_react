@@ -12,9 +12,30 @@ const DetailedItemCard = ({ card, activeModal, hideModal }: DetailedItemCardProp
   return (
     <Modal activeModal={activeModal} hideModal={hideModal}>
       <div className={styles.modal}>
-        <h3>{card.title}</h3>
-        <img className={styles.img} src={card.thumbnail} alt={card.title} />
-        <p>{card.description}</p>
+        <h3 className={styles.title}>{card.title}</h3>
+        <div className={styles.images}>
+          {card.images.map((img, ind) => (
+            <img key={img} src={img} alt={card.title + ind} />
+          ))}
+        </div>
+        <p className={styles.description}>{card.description}</p>
+        <div className={styles.infoWrapper}>
+          <div className={styles.info}>
+            Brand: <span>{card.brand}</span>
+          </div>
+          <div className={styles.info}>
+            Stock: <span>{card.stock}</span>
+          </div>
+          <div className={styles.info}>
+            Rating: <span>{card.rating}/5</span>
+          </div>
+          <div className={styles.info}>
+            Price: <span>{card.price}$</span>
+          </div>
+          <div className={styles.info}>
+            Discount: <span>{card.discountPercentage}%</span>
+          </div>
+        </div>
       </div>
     </Modal>
   );
