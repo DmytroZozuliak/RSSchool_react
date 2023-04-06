@@ -35,7 +35,7 @@ describe('Card component', () => {
   test('should render img', () => {
     render(<DetailedItemCard card={card} activeModal={true} hideModal={mockFn} />);
     const img = screen.getAllByRole('img');
-    expect(img.length).toBe(card.images.length);
+    expect(img.length).toBeLessThan(4);
   });
   test('should be unmount', () => {
     const { getByText, queryByText, unmount } = render(

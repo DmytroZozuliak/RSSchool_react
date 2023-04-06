@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import userEvent from '@testing-library/user-event';
 import HomePage from './HomePage';
 import { ProductsResponse } from '../../types/itemType';
 
@@ -52,5 +53,13 @@ describe('CardsList component', () => {
     render(<HomePage />);
     const items = await screen.findAllByRole('listitem');
     expect(items.length).toBe(1);
+  });
+
+  test('should typed in InputSearch', async () => {
+    render(<HomePage />);
+    const input = screen.getByRole('searchbox');
+    const text = 'React';
+    await userEvent.type(input, text);
+    expect(input).toHaveValue(text);
   });
 });
