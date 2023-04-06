@@ -9,12 +9,14 @@ interface DetailedItemCardProps {
 }
 
 const DetailedItemCard = ({ card, activeModal, hideModal }: DetailedItemCardProps) => {
+  console.log('card.images', card.images);
+
   return (
     <Modal activeModal={activeModal} hideModal={hideModal}>
       <div className={styles.modal}>
         <h3 className={styles.title}>{card.title}</h3>
         <div className={styles.images}>
-          {card.images.map((img, ind) => (
+          {card.images.slice(0, 3).map((img, ind) => (
             <img key={img} src={img} alt={card.title + ind} />
           ))}
         </div>
