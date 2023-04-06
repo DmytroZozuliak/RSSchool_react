@@ -21,8 +21,8 @@ describe('NotFoundPage component', () => {
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
-    userEvent.click(button).then(() => {
-      const homeLink = screen.getByRole('link', { name: /home/i });
+    userEvent.click(button).then(async () => {
+      const homeLink = await screen.findByRole('link', { name: /home/i });
       expect(homeLink).toBeInTheDocument();
     });
   });
