@@ -30,11 +30,13 @@ const ItemCard = ({ card }: ItemCardProps) => {
           </div>
         </div>
       </li>
-      <DetailedItemCard
-        card={card}
-        activeModal={activeModal}
-        hideModal={() => setActiveModal(false)}
-      />
+      {activeModal && (
+        <DetailedItemCard
+          card={card}
+          activeModal={activeModal}
+          hideModal={() => setActiveModal(false)}
+        />
+      )}
     </>
   );
 };
