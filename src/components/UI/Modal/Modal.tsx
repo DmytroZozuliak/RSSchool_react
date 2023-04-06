@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from 'react';
-import styles from './Modal.module.scss';
 import { createPortal } from 'react-dom';
+import styles from './Modal.module.scss';
 
 interface ModalProps {
   activeModal: boolean;
