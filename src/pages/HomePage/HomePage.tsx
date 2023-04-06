@@ -13,7 +13,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<null | string>(null);
 
-  const { onChangeHandler, term } = useSearchHandler();
+  const { onChangeHandler, term, saveInputValueToLocal } = useSearchHandler();
 
   const fetchProducts = async (controller?: AbortController) => {
     try {
@@ -39,6 +39,7 @@ const HomePage = () => {
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await fetchProducts();
+    saveInputValueToLocal();
   };
 
   return (

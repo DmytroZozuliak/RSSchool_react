@@ -9,11 +9,15 @@ export const useSearchHandler = () => {
     inputRefValue.current = e.target.value;
   };
 
+  const saveInputValueToLocal = () => {
+    localStorage.setItem('goodsSearchBar', inputRefValue.current);
+  };
+
   useEffect(() => {
     return () => {
-      localStorage.setItem('goodsSearchBar', inputRefValue.current);
+      saveInputValueToLocal();
     };
   }, []);
 
-  return { term, onChangeHandler };
+  return { term, onChangeHandler, saveInputValueToLocal };
 };
