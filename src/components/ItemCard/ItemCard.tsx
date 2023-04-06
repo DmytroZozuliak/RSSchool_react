@@ -30,6 +30,7 @@ const ItemCard = ({ card }: ItemCardProps) => {
           </div>
         </div>
       </li>
+
       {activeModal && (
         <DetailedItemCard
           card={card}
