@@ -22,7 +22,7 @@ const HomePage = () => {
       const response = await getProducts(term, controller);
       setCards(response.products);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (axios.isAxiosError(error) && error.code !== 'ERR_CANCELED') {
         setError(error.message);
       }
     } finally {
@@ -41,25 +41,14 @@ const HomePage = () => {
     await fetchProducts();
   };
 
-  const showCards = () => {
-    if (loading) {
-      return <Loader />;
-    }
-    if (error && !cards) {
-      return <p>{error}</p>;
-    }
-
-    return cards.length > 0 ? (
-      cards.map((product) => <Card key={product.id} card={product} />)
-    ) : (
-      <p>No matches</p>
-    );
-  };
-
   return (
     <>
       <InputSearch term={term} onChange={onChangeHandler} onSubmit={onSubmitHandler} />
-      <ul className={styles.cardWrapper}>{showCards()}</ul>
+      <ul className={styles.cardWrapper}>
+        {error && <p>{error}</p>}
+        {loading && <Loader />}
+        {cards && cards.map((product) => <Card key={product.id} card={product} />)}
+      </ul>
     </>
   );
 };
