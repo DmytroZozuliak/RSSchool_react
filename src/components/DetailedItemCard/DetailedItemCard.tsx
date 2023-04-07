@@ -9,8 +9,6 @@ interface DetailedItemCardProps {
 }
 
 const DetailedItemCard = ({ card, activeModal, hideModal }: DetailedItemCardProps) => {
-  console.log('card.images', card.images);
-
   return (
     <Modal activeModal={activeModal} hideModal={hideModal}>
       <div className={styles.modal}>
