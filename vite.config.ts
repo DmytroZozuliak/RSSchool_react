@@ -9,6 +9,14 @@ export default defineConfig({
   plugins: [react()],
   base: '/',
 
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/styles/variables.scss";`,
+      },
+    },
+  },
+
   test: {
     globals: true,
     environment: 'jsdom',
