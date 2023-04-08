@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 import MyButton from '../../components/UI/MyButton';
 import styles from './notFoundPage.module.scss';

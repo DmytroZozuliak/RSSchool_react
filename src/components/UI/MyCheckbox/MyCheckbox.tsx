@@ -1,32 +1,27 @@
-import React, { Component } from 'react';
+import { forwardRef } from 'react';
 import styles from './MyCheckbox.module.scss';
-
-interface Props {
+interface MyCheckboxProps extends React.HTMLProps<HTMLInputElement> {
   label: string;
   errorMessage?: string;
-  reference?: React.RefObject<HTMLInputElement>;
-  valid?: boolean;
 }
 
-export default class ToggleCheckbox extends Component<Props & React.HTMLProps<HTMLInputElement>> {
-  render() {
-    const { reference, valid, label, errorMessage, ...restProps } = this.props;
+type Ref = HTMLInputElement;
 
-    let isValid = false;
-    if (!valid) {
-      isValid = true;
-    }
+const MyCheckbox = forwardRef<Ref, MyCheckboxProps>((props, ref) => {
+  const { label, errorMessage, ...restProps } = props;
+  const isValid = !!errorMessage;
 
-    return (
-      <div className={styles.wrapper}>
-        <label htmlFor={label} className={`${styles.title} ${isValid ? styles.invalid : ''}`}>
-          {label}
-        </label>
-        <input className={styles.input} id={label} type="checkbox" ref={reference} {...restProps} />
-        <label className={styles.label} htmlFor={label} />
+  return (
+    <div className={styles.wrapper}>
+      <label htmlFor={label} className={`${styles.title} ${isValid ? styles.invalid : ''}`}>
+        {label}
+      </label>
+      <input className={styles.input} ref={ref} id={label} type="checkbox" {...restProps} />
+      <label className={styles.label} htmlFor={label} />
 
-        {isValid && <span>{errorMessage}</span>}
-      </div>
-    );
-  }
-}
+      {isValid && <span>{errorMessage}</span>}
+    </div>
+  );
+});
+
+export default MyCheckbox;

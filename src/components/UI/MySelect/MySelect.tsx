@@ -1,40 +1,34 @@
-import React, { Component } from 'react';
+import { forwardRef } from 'react';
 import classes from './MySelect.module.scss';
-
-interface Props {
-  values: string[];
+interface MySelectProps extends React.HTMLProps<HTMLSelectElement> {
+  values: Readonly<string[]>;
+  defaultOption?: string;
   label: string;
-  valid?: boolean;
   errorMessage?: string;
-  reference: React.RefObject<HTMLSelectElement>;
 }
+type Ref = HTMLSelectElement;
 
-export default class MySelect extends Component<Props & React.HTMLProps<HTMLSelectElement>> {
-  render() {
-    const { reference, errorMessage, valid, label, values, ...rest } = this.props;
+const MySelect = forwardRef<Ref, MySelectProps>((props, ref) => {
+  const { label, errorMessage, defaultOption, values, ...rest } = props;
 
-    let isValid = false;
-    if (!valid) {
-      isValid = true;
-    }
+  return (
+    <div className={classes.Select}>
+      <label>
+        {label}
+        <select autoComplete="none" autoCorrect="none" {...rest} ref={ref}>
+          {defaultOption && <option value="default">{defaultOption}</option>}
+          {values.map((value) => {
+            return (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            );
+          })}
+        </select>
+      </label>
+      {errorMessage && <span>{errorMessage}</span>}
+    </div>
+  );
+});
 
-    return (
-      <div className={classes.Select}>
-        <label className={`${classes.label} ${isValid ? classes.invalid : ''}`}>
-          {label}
-          <select ref={reference} {...rest}>
-            <option value={'default'}>--select a country--</option>
-            {values.map((value) => {
-              return (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              );
-            })}
-          </select>
-        </label>
-        {isValid && errorMessage && <span>{errorMessage}</span>}
-      </div>
-    );
-  }
-}
+export default MySelect;

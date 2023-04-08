@@ -1,48 +1,30 @@
-import React, { Component } from 'react';
+import { forwardRef } from 'react';
 import styles from './MyToggle.module.scss';
-
-interface Props {
+interface ToggleCheckboxProps extends React.HTMLProps<HTMLInputElement> {
   label: string;
-  errorMessage?: string;
   option1: string;
   option2: string;
-  reference1?: React.RefObject<HTMLInputElement>;
-  reference2?: React.RefObject<HTMLInputElement>;
-  valid?: boolean;
 }
 
-export default class ToggleCheckbox extends Component<Props & React.HTMLProps<HTMLInputElement>> {
-  render() {
-    const { reference1, reference2, option1, option2, valid, label, errorMessage, ...restArgs } =
-      this.props;
+type Ref = HTMLInputElement;
 
-    let isValid = false;
-    if (!valid) {
-      isValid = true;
-    }
+const MyToggle = forwardRef<Ref, ToggleCheckboxProps>((props, ref) => {
+  const { option1, option2, label, ...restArgs } = props;
 
-    return (
-      <div className={styles.toggleWrapper}>
-        <div className={styles.title}>{label}</div>
-        <div className={`${styles.switch} ${styles['switch--horizontal']}`}>
-          <input
-            id="radio-a"
-            type="radio"
-            value={option1}
-            defaultChecked
-            ref={reference1}
-            {...restArgs}
-          />
-          <label htmlFor="radio-a">{option1}</label>
-          <input id="radio-b" type="radio" value={option2} ref={reference2} {...restArgs} />
-          <label htmlFor="radio-b">{option2}</label>
-          <span className={styles['toggle-outside']}>
-            <span className={styles['toggle-inside']}></span>
-          </span>
-        </div>
-
-        {isValid && <span>{errorMessage}</span>}
+  return (
+    <div className={styles.toggleWrapper}>
+      <div className={styles.title}>{label}</div>
+      <div className={`${styles.switch} ${styles['switch--horizontal']}`}>
+        <input id="radio-a" type="radio" value={option1} defaultChecked ref={ref} {...restArgs} />
+        <label htmlFor="radio-a">{option1}</label>
+        <input id="radio-b" type="radio" value={option2} ref={ref} {...restArgs} />
+        <label htmlFor="radio-b">{option2}</label>
+        <span className={styles['toggle-outside']}>
+          <span className={styles['toggle-inside']}></span>
+        </span>
       </div>
-    );
-  }
-}
+    </div>
+  );
+});
+
+export default MyToggle;

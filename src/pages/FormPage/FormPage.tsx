@@ -1,40 +1,31 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import Form from '../../components/Form';
 import FormCards from '../../components/FormCards/FormCards';
 import { FormCard } from '../../types/formTypes';
 import styles from './FormPage.module.scss';
 
-interface State {
-  formCards: FormCard[];
-  isVisibleMessage: boolean;
-}
+const TIME_DELAY = 3000;
 
-export default class FormPage extends Component<Record<string, unknown>, State> {
-  constructor(props: Record<string, unknown>) {
-    super(props);
-    this.state = {
-      formCards: [],
-      isVisibleMessage: false,
-    };
-  }
+const FormPage = () => {
+  const [isVisibleMessage, setIsVisibleMessage] = useState(false);
+  const [formCards, setFormCards] = useState<FormCard[]>([]);
 
-  addCard = (card: FormCard) => {
-    this.setState((prevState) => {
-      return { formCards: [...prevState.formCards, card], isVisibleMessage: true };
-    });
+  const addCard = (newCard: FormCard) => {
+    setFormCards((prevState) => [...prevState, newCard]);
+    setIsVisibleMessage(true);
 
     setTimeout(() => {
-      this.setState({ isVisibleMessage: false });
-    }, 3000);
+      setIsVisibleMessage(false);
+    }, TIME_DELAY);
   };
 
-  render() {
-    return (
-      <>
-        <Form addCard={this.addCard} />
-        {this.state.isVisibleMessage && <p className={styles.message}>Card created successfully</p>}
-        <FormCards cards={this.state.formCards} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Form addCard={addCard} />
+      {isVisibleMessage && <p className={styles.message}>Card created successfully</p>}
+      <FormCards cards={formCards} />
+    </>
+  );
+};
+
+export default FormPage;

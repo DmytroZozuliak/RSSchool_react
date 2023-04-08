@@ -1,54 +1,39 @@
-import React, { Component } from 'react';
+import React, { forwardRef } from 'react';
 import classes from './MyInput.module.scss';
-
-interface Props {
+interface MyInputProps extends React.HTMLProps<HTMLInputElement> {
   type?: string;
   label?: string;
   errorMessage?: string;
-  valid?: boolean;
-  reference?: React.RefObject<HTMLInputElement>;
   image?: string | null;
 }
+type Ref = HTMLInputElement;
 
-export default class MyInput extends Component<Props & React.HTMLProps<HTMLInputElement>> {
-  constructor(props: Props) {
-    super(props);
+const MyInput = forwardRef<Ref, MyInputProps>((props, ref) => {
+  const { type = 'text', label, errorMessage, image, ...restProps } = props;
+
+  const isValid = !!errorMessage;
+  let inputClasses = classes.myInput;
+  if (type === 'search') {
+    inputClasses += ` ${classes.search}`;
+  }
+  if (type === 'file') {
+    inputClasses += ` ${classes.file}`;
+  }
+  if (isValid) {
+    inputClasses += ` ${classes.invalid}`;
   }
 
-  render() {
-    const {
-      type = 'text',
-      label,
-      errorMessage,
-      valid,
-      reference,
-      image,
-      ...restProps
-    } = this.props;
+  return (
+    <div className={inputClasses}>
+      <label className={`${classes.label} ${isValid ? classes.invalid : ''}`}>
+        {label}
+        {type === 'file' && image && <img src={image} alt="avatar" />}
+        <input autoComplete="none" autoCorrect="none" type={type} ref={ref} {...restProps} />
+      </label>
 
-    const cls = [classes.myInput];
-    if (type === 'search') {
-      cls.push(classes.search);
-    }
-    if (type === 'file') {
-      cls.push(classes.file);
-    }
+      {isValid && errorMessage && <span>{errorMessage}</span>}
+    </div>
+  );
+});
 
-    let isValid = false;
-    if (!valid) {
-      isValid = true;
-    }
-
-    return (
-      <div className={cls.join(' ')}>
-        <label className={`${classes.label} ${isValid ? classes.invalid : ''}`}>
-          {label}
-          {type === 'file' && image && <img src={image} alt="avatar" />}
-          <input type={type} ref={reference} {...restProps} />
-        </label>
-
-        {isValid && errorMessage && <span>{errorMessage}</span>}
-      </div>
-    );
-  }
-}
+export default MyInput;

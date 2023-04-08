@@ -7,6 +7,7 @@
     "start": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "ts": "tsc --noEmit",
     "eslint": "eslint . --ext .tsx --ext .ts",
     "lint": "prettier --check .",
     "format": "prettier --write .",
@@ -14,9 +15,27 @@
     "prepare": "husky install",
     "eslint": "eslint . --ext .tsx --ext .ts"
   },
+  "lint-staged": {
+    "*.json": "prettier --write",
+    "*.{js,jsx}": [
+      "prettier --write",
+      "eslint --fix --quiet --config .eslintrc.json --resolve-plugins-relative-to .",
+      "git add"
+    ],
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix --quiet --config .eslintrc.json --resolve-plugins-relative-to .",
+      "git add"
+    ],
+    "*.{scss,scss,css,md,html}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.7",
     "react-router-dom": "^6.9.0"
   },
   "devDependencies": {

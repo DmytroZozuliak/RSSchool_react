@@ -13,7 +13,7 @@ describe('CardsForm component', () => {
         date: '2022-01-01',
         country: 'UA',
         img: './logo.img',
-        genderMale: 'male',
+        gender: 'male',
         dataProcessing: true,
       },
       {
@@ -22,7 +22,7 @@ describe('CardsForm component', () => {
         date: '2002-01-01',
         country: 'PL',
         img: './avatar.img',
-        genderMale: 'female',
+        gender: 'female',
         dataProcessing: true,
       },
     ];

@@ -1,309 +1,155 @@
-import React, { Component, createRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
+import { COUNTRIES, SUPPORTED_FORMATS } from '../../constants/constants';
 import MyButton from '../UI/MyButton';
 import MyInput from '../UI/MyInput';
 import MySelect from '../UI/MySelect';
 import MyToggle from '../UI/MyToggle';
 import MyCheckbox from '../UI/MyCheckbox';
+import useValidation from './useFormWithValidation';
 import classes from './Form.module.scss';
-import { FormCard, Gender } from '../../types/formTypes';
+import { FormCard, FormValues } from '../../types/formTypes';
 
-interface Props {
+const defaultValues: FormValues = {
+  name: '',
+  surname: '',
+  gender: 'male',
+  country: 'default',
+  dataProcessing: false,
+  date: '',
+  file: null,
+};
+interface FormProps {
   addCard: (card: FormCard) => void;
 }
-interface State {
-  firstChangeForm: boolean;
-  buttonsDisable: boolean;
-  name: boolean;
-  surname: boolean;
-  date: boolean;
-  country: boolean;
-  img: string | null;
-  file: boolean;
-  dataProcessing: boolean;
-  genderMale: boolean;
-}
 
-export default class Form extends Component<Props, State> {
-  nameInput: React.RefObject<HTMLInputElement>;
-  surnameInput: React.RefObject<HTMLInputElement>;
-  dateInput: React.RefObject<HTMLInputElement>;
-  fileInput: React.RefObject<HTMLInputElement>;
-  checkboxProcessing: React.RefObject<HTMLInputElement>;
-  countrySelect: React.RefObject<HTMLSelectElement>;
-  genderRadio1: React.RefObject<HTMLInputElement>;
-  genderRadio2: React.RefObject<HTMLInputElement>;
+const Form = ({ addCard }: FormProps) => {
+  const [logo, setLogo] = useState<null | string>(null);
+  const [submitDisable, setSubmitDisable] = useState(true);
+  const { handleSubmit, reset, errors, clearErrors, registerValidation } =
+    useValidation(defaultValues);
 
-  constructor(props: Props) {
-    super(props);
-    this.nameInput = createRef();
-    this.surnameInput = createRef();
-    this.dateInput = createRef();
-    this.fileInput = createRef();
-    this.countrySelect = createRef();
-    this.checkboxProcessing = createRef();
-    this.genderRadio1 = createRef();
-    this.genderRadio2 = createRef();
-
-    this.state = {
-      firstChangeForm: false,
-      buttonsDisable: true,
-      name: true,
-      surname: true,
-      date: true,
-      country: true,
-      file: true,
-      img: null,
-      dataProcessing: true,
-      genderMale: true,
-    };
-  }
-
-  onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const name = e.target.name as keyof State;
-    const inputAvatar = this.fileInput.current;
-    if (name === 'file' && inputAvatar && inputAvatar.files) {
-      this.setState({ img: URL.createObjectURL(inputAvatar.files[0]), file: true });
-    }
-    this.handleInputANdSelect(name);
+  const resetForm = () => {
+    reset(defaultValues);
+    setLogo(null);
+    setSubmitDisable(true);
   };
 
-  onChangeSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const name = e.target.name as keyof State;
-    this.handleInputANdSelect(name);
-  };
-
-  handleInputANdSelect = (name: keyof State): void => {
-    this.setState((prevState) => {
-      return { ...prevState, [name]: true };
-    }, this.enableButton);
-
-    if (!this.state.firstChangeForm) {
-      this.setState({ buttonsDisable: false });
-    }
-  };
-
-  enableButton = (): void => {
-    if (
-      this.state.country &&
-      this.state.dataProcessing &&
-      this.state.date &&
-      this.state.file &&
-      this.state.name &&
-      this.state.surname &&
-      this.state.firstChangeForm &&
-      this.state.genderMale
-    ) {
-      this.setState((prevState) => {
-        return { ...prevState, buttonsDisable: false };
-      });
-    }
-  };
-
-  isValidComponent = (condition: boolean, stateKey: keyof State): boolean => {
-    if (condition) {
-      this.setState((prevState) => {
-        return { ...prevState, [stateKey]: false };
-      });
-      return false;
-    } else {
-      this.setState((prevState) => {
-        return { ...prevState, [stateKey]: true };
-      });
-      return true;
-    }
-  };
-
-  validationAll = (): boolean => {
-    const { checkboxProcessing, inputAvatar, inputDate, inputName, inputSurname, countrySelect } =
-      this.getElementsFromRefs();
-
-    let isValid = true;
-    isValid = this.isValidComponent(inputName.value.trim().length < 3, 'name') && isValid;
-    isValid = this.isValidComponent(inputSurname.value.trim().length < 3, 'surname') && isValid;
-    const dataValue = new Date(inputDate.value);
-    const currentDay = new Date();
-    isValid = this.isValidComponent(!inputDate.value || dataValue > currentDay, 'date') && isValid;
-
-    isValid =
-      this.isValidComponent(!!inputAvatar.files && !inputAvatar.files.length, 'file') && isValid;
-    isValid = this.isValidComponent(!checkboxProcessing.checked, 'dataProcessing') && isValid;
-    isValid = this.isValidComponent(countrySelect.value === 'default', 'country') && isValid;
-    return isValid;
-  };
-
-  getElementsFromRefs = () => {
-    const inputName = this.nameInput.current as HTMLInputElement;
-    const inputSurname = this.surnameInput.current as HTMLInputElement;
-    const inputDate = this.dateInput.current as HTMLInputElement;
-    const inputAvatar = this.fileInput.current as HTMLInputElement;
-    const countrySelect = this.countrySelect.current as HTMLSelectElement;
-    const checkboxProcessing = this.checkboxProcessing.current as HTMLInputElement;
-    const radioGenderMale = this.genderRadio1.current as HTMLInputElement;
-    const radioGenderFemale = this.genderRadio2.current as HTMLInputElement;
-    return {
-      inputName,
-      inputSurname,
-      inputDate,
-      inputAvatar,
-      countrySelect,
-      checkboxProcessing,
-      radioGenderMale,
-      radioGenderFemale,
-    };
-  };
-
-  onFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    const {
-      checkboxProcessing,
-      countrySelect,
-      inputAvatar,
-      inputDate,
-      inputName,
-      inputSurname,
-      radioGenderFemale,
-      radioGenderMale,
-    } = this.getElementsFromRefs();
-
-    this.setState({ firstChangeForm: true });
-
-    if (!this.validationAll()) {
-      this.setState({ buttonsDisable: true });
-      return;
-    }
-
-    let imgValue: string | null;
-    if (inputAvatar && inputAvatar.files) {
-      imgValue = URL.createObjectURL(inputAvatar.files[0]);
-    } else {
-      imgValue = null;
-    }
-    const selectedGender = (
-      radioGenderMale.checked ? radioGenderMale.value : radioGenderFemale.value
-    ) as Gender;
-
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const { name, surname, country, dataProcessing, date, gender } = data;
+    const dateResult = date instanceof Date ? date.toLocaleDateString() : '';
     const newCard: FormCard = {
-      name: inputName.value,
-      surname: inputSurname.value,
-      date: inputDate.value,
-      country: countrySelect.value,
-      img: imgValue,
-      dataProcessing: checkboxProcessing.checked,
-      genderMale: selectedGender,
+      name,
+      surname,
+      date: dateResult,
+      country,
+      dataProcessing,
+      gender,
+      img: logo,
     };
-
-    this.props.addCard(newCard);
-    this.resetStateInputs();
+    addCard(newCard);
+    resetForm();
   };
 
-  resetStateInputs = () => {
-    const {
-      checkboxProcessing,
-      countrySelect,
-      inputAvatar,
-      inputDate,
-      inputName,
-      inputSurname,
-      radioGenderFemale,
-      radioGenderMale,
-    } = this.getElementsFromRefs();
+  const onChangeInputHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const name = e.target.name as keyof FormValues;
+      if (errors[name]) {
+        clearErrors(name);
+      }
+      if (name !== 'file') {
+        return;
+      }
+      const file = e.target.files?.[0];
+      if (!file || !SUPPORTED_FORMATS.includes(file.type)) {
+        setLogo(null);
+        return;
+      }
+      setLogo(URL.createObjectURL(file));
+    },
+    [setLogo, clearErrors, errors]
+  );
 
-    inputName.value = '';
-    inputSurname.value = '';
-    inputDate.value = '';
-    countrySelect.value = 'default';
-    checkboxProcessing.checked = false;
-    inputAvatar.value = '';
-    radioGenderMale.checked = true;
-    radioGenderFemale.checked = false;
+  const onChangeSelectHandler = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const name = e.target.name as keyof FormValues;
+      if (errors[name]) {
+        clearErrors(name);
+      }
+    },
+    [clearErrors, errors]
+  );
 
-    this.setState({
-      name: true,
-      surname: true,
-      date: true,
-      img: null,
-      country: true,
-      file: true,
-      dataProcessing: true,
-      buttonsDisable: true,
-      genderMale: true,
-    });
+  useEffect(() => {
+    return () => {
+      if (logo) {
+        URL.revokeObjectURL(logo);
+      }
+    };
+  }, [logo]);
+
+  const submitButtonDisabled = () => {
+    return submitDisable || Object.values(errors).some((error) => Boolean(error));
   };
 
-  render() {
-    return (
-      <form className={classes.cardForm} onSubmit={this.onFormSubmit}>
-        <MyInput
-          label="Name"
-          name="name"
-          valid={this.state.name}
-          errorMessage="Your name should contains at least 3 chars"
-          reference={this.nameInput}
-          onChange={this.onChangeInputHandler}
-        />
-        <MyInput
-          label="Surname"
-          name="surname"
-          valid={this.state.surname}
-          errorMessage="Your surname should contains at least 3 chars"
-          reference={this.surnameInput}
-          onChange={this.onChangeInputHandler}
-        />
-        <MyToggle
-          onChange={this.onChangeInputHandler}
-          name="genderMale"
-          reference1={this.genderRadio1}
-          reference2={this.genderRadio2}
-          option1="male"
-          option2="female"
-          label="Gender"
-        />
-        <MyInput
-          type="date"
-          label="Birth date"
-          name="date"
-          valid={this.state.date}
-          errorMessage="Pick correct birth date"
-          reference={this.dateInput}
-          onChange={this.onChangeInputHandler}
-        />
-        <MyInput
-          type="file"
-          label="Avatar"
-          name="file"
-          valid={this.state.file}
-          image={this.state.img}
-          errorMessage="You should download avatar"
-          reference={this.fileInput}
-          onChange={this.onChangeInputHandler}
-        />
-        <MySelect
-          label="Choose your country"
-          values={['UA', 'USA', 'PL', 'D', 'SP']}
-          valid={this.state.country}
-          errorMessage="Field required"
-          reference={this.countrySelect}
-          name="country"
-          onChange={this.onChangeSelectHandler}
-        />
-        <MyCheckbox
-          name="dataProcessing"
-          label="Agree to data processing"
-          reference={this.checkboxProcessing}
-          valid={this.state.dataProcessing}
-          errorMessage="you should agree"
-          onChange={this.onChangeInputHandler}
-        />
+  return (
+    <form
+      className={classes.cardForm}
+      onChange={() => setSubmitDisable(false)}
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <MyInput
+        {...registerValidation.name}
+        onChange={onChangeInputHandler}
+        label="Name"
+        errorMessage={errors.name?.message}
+      />
+      <MyInput
+        {...registerValidation.surname}
+        onChange={onChangeInputHandler}
+        label="Surname"
+        errorMessage={errors.surname?.message}
+      />
+      <MyToggle {...registerValidation.gender} option1="male" option2="female" label="Gender" />
 
-        <div className={classes.cardForm__buttons}>
-          <MyButton type="submit" disabled={this.state.buttonsDisable}>
-            Create card
-          </MyButton>
-          <MyButton type="reset" onClick={this.resetStateInputs}>
-            Reset
-          </MyButton>
-        </div>
-      </form>
-    );
-  }
-}
+      <MyInput
+        {...registerValidation.date}
+        type="date"
+        label="Birth date"
+        onChange={onChangeInputHandler}
+        errorMessage={errors.date?.message}
+      />
+      <MyInput
+        type="file"
+        {...registerValidation.file}
+        image={logo}
+        label="Avatar"
+        errorMessage={errors.file?.message}
+        onChange={onChangeInputHandler}
+      />
+      <MySelect
+        errorMessage={errors.country?.message}
+        defaultOption="--select a country--"
+        {...registerValidation.country}
+        onChange={onChangeSelectHandler}
+        label="Choose your country"
+        values={COUNTRIES}
+      />
+      <MyCheckbox
+        {...registerValidation.dataProcessing}
+        label="Agree to data processing"
+        errorMessage={errors.dataProcessing?.message}
+      />
+      <div className={classes.cardForm__buttons}>
+        <MyButton type="submit" disabled={submitButtonDisabled()}>
+          Create card
+        </MyButton>
+        <MyButton type="reset" onClick={resetForm}>
+          Reset
+        </MyButton>
+      </div>
+    </form>
+  );
+};
+
+export default Form;
