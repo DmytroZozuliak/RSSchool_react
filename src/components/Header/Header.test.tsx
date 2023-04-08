@@ -62,8 +62,10 @@ describe('Header component', () => {
     const aboutLink = screen.getByRole('link', { name: /about/i });
     expect(aboutLink).toBeInTheDocument();
 
-    user.click(aboutLink).then(() => {
-      expect(screen.getByText(/About us/i)).toBeInTheDocument();
+    user.click(aboutLink).then(async () => {
+      const text = await screen.findByText(/About us/i);
+      screen.debug();
+      expect(text).toBeInTheDocument();
     });
   });
 });

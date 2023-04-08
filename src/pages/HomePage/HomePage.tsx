@@ -1,18 +1,56 @@
+import axios from 'axios';
 import Card from '../../components/ItemCard';
 import InputSearch from '../../components/InputSearch';
-import { goods } from '../../constants/data';
 import styles from './homePage.module.scss';
+import { useEffect, useState } from 'react';
+import Loader from '../../components/Loader';
+import { Product } from '../../types/itemType';
+import { getProducts } from '../../api/productsApi';
+import { useSearchHandler } from './useSearchHandler';
 
 const HomePage = () => {
+  const [cards, setCards] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<null | string>(null);
+
+  const { onChangeHandler, term, saveInputValueToLocal } = useSearchHandler();
+
+  const fetchProducts = async (controller?: AbortController) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await getProducts(term, controller);
+      setCards(response.products);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.code !== 'ERR_CANCELED') {
+        setError(error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchProducts(controller);
+    return () => controller.abort();
+  }, []);
+
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await fetchProducts();
+    saveInputValueToLocal();
+  };
+
   return (
-    <div>
-      <InputSearch />
+    <>
+      <InputSearch term={term} onChange={onChangeHandler} onSubmit={onSubmitHandler} />
       <ul className={styles.cardWrapper}>
-        {goods.map((product) => (
-          <Card key={product.id} card={product} />
-        ))}
+        {error && <p>{error}</p>}
+        {loading && <Loader />}
+        {cards && cards.map((product) => <Card key={product.id} card={product} />)}
       </ul>
-    </div>
+    </>
   );
 };
 
