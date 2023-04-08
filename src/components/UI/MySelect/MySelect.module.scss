@@ -12,8 +12,13 @@
   max-width: 300px;
 
   label {
+    text-transform: capitalize;
     display: block;
     margin-bottom: 5px;
+  }
+
+  .label.invalid {
+    color: #e1646e;
   }
 
   select {
